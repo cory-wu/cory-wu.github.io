@@ -2,5 +2,4 @@
 title: Welcome to Quartz
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+click to forgive is my personal site where i sit around and think a little bit. i'll be adding to this for the forseeable future.
