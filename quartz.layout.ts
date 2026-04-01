@@ -8,8 +8,8 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
+      GitHub: "https://github.com/cory-wu",
+      "LinkedIn": "https://www.linkedin.com/in/cory-wu/",
     },
   }),
 }
@@ -22,8 +22,11 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
+Component.ConditionalRender({
+  component: Component.ContentMeta(),
+  condition: (page) => page.fileData.slug !== "index",
+}),
+Component.TagList(),
   ],
   left: [
     Component.PageTitle(),
@@ -41,7 +44,13 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Explorer(),
   ],
   right: [
-    Component.Graph(),
+    Component.Flex({
+      components: [
+        {
+          Component: Component.Graph(), grow: true
+        },
+      ]
+    }),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
