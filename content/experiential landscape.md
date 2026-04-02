@@ -18,6 +18,17 @@ What you, at this very moment, choose to do or not do thus decides everything th
 
 Follow the red string back to the moment you were born. The first few years of your life were (probabilistically) determined by the choices of your parents. They unraveled your red string for you, according to what they thought was best (or what they could do). Then, when you were a little older, you too could push your life forward. You learned to tie your shoes, practice your times tables, and read books. You built habits, developed a bedtime routine, and grew up.
 
-The way that our lives unfold, how our red strings unravel, is out of our control. But we follow patterns--probability distributions over our decisions--that make us who we are. We ask ourselves: "What would Dad do in this scenario?" or "How might I have turned out if I hadn't learned an instrument?" These questions dig at the idea of alternate timelines that describe other lives you could have lived, or other lives that other people could have lived. *That* is the experiential landscape; it is the set of all possible human experiences in which our own lives fall on and travel around, looping about and intersecting with others.
+The way that our lives unfold, how our red strings unravel, is out of our control. But we follow patterns--probability distributions over our decisions--that make us who we are. We ask ourselves: "What would Dad do in this scenario?" or "How might I have turned out if I hadn't learned an instrument?" These questions dig at the idea of alternate timelines that describe other lives you could have lived, or other lives that other people could have lived. *That* is the experiential landscape; **it is the set of all possible human experiences in which our own lives fall on and travel around, looping about and intersecting with others.**
 
 And I really like this idea.
+
+---
+A Mathematical View
+- we are all the same, just initialized differently? is this even reasonable?
+- perhaps a simulation? By LLN our choices are maybe a very high dimensional gaussian? is the variance too high? --> jittered initialization, random Gaussian walks in $n$-D space.
+
+An Interpersonal Perspective
+- by everything we should strive to know as much as we can about each other so that we can inform our own experiences and move along with others, learn from and contribute to. 
+- those who we love we should strive to know all about. shared experiences mean aligned trajectories. (curse of dimensionality means that it's a miracle we should even see eye to eye)
+
+Other Implications

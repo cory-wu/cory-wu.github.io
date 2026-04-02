@@ -2,7 +2,7 @@
 title: The Content Garden
 ---
 
-click to forgive is my personal site where i sit around and think a little. i'll be adding to this for the forseeable future.
+click to forgive is my personal site where i sit around and think a little. i'll be adding to this for the foreseeable future.
 
 ## About
 
