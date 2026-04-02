@@ -11,5 +11,5 @@ I'm a third-year undergraduate at Harvard University studying statistics and neu
 ## Current Works
 
 here are a few ideas i'm writing about right now:
-- experiential landscapes and bayesian statistics
+- [[experiential landscape|experiential landscapes]] and bayesian statistics
 - a love letter to the Gaussian distribution
