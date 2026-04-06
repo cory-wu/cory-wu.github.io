@@ -151,6 +151,8 @@ A bashy to this question is to say something like, "experience is a product of m
 
 ### Dimensionality and Sparsity
 
-In high-dimensional spaces, we run into many problems. Intuitively, as dimensions increase the volume of the space grows exponentially, making data points sparse and finding neighbors difficult. Distances between points tend to converge, so it becomes hard to say two points are "close to" or "far from" each other.
+In high-dimensional spaces, we run into many problems. Intuitively, as dimensions increase the volume of the space grows exponentially, making data points sparse and finding neighbors difficult. Distances between points tend to converge, so it becomes hard to say two points are "close to" or "far from" each other. Two points could be close in one dimension, but far apart in another dimension, overwhelming any distance metric (especially Euclidean distance).
 
-For our high-dimensional experiential landscape, we are all almost certainly kicking around our red balls of yarn farther and farther away from each other, and we wouldn't even be able to tell.
+For our high-dimensional experiential landscape, we are all likely kicking around our red balls of yarn farther and farther away from each other, and we wouldn't even be able to tell. This also suggests that if you and I were to vacation with each other, despite us eating at the same restaurants, walking the same streets of town, and swimming in the same beach, we could have been pushing our balls of yarn in completely different ways, leading to different experiences.
+
+But that's absurd--we ...
