@@ -141,8 +141,6 @@ This expression is intentionally broad, computationally intractable, and most ce
 
 Can we even describe human experiences mathematically? One a scale of one to five, how was your day today? Please rate your experience at the doctor's office today out of ten. 
 
-Please give me one thousand numbers to describe to me the moment you left home for the first time. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? How was the flight? Were you scared, or excited?
+Please give me one thousand numbers to describe to me the moment you left home for college. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? Did your legs want to walk toward the gate thirty minutes early? Were you tired? How was the flight? Were you scared, or excited? 
 
-Using just one thousand numbers, describe to me every element your very first kiss. How old were you? Where was it? Did your heart flutter? How long did the ensuing relationship last?
-
-Choose one thousand numbers to 
+A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions [citation needed]. Who's to say this number is fixed? Some of our experiences are more complex than others.
