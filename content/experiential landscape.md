@@ -137,12 +137,20 @@ This expression is intentionally broad, computationally intractable, and most ce
 ---
 ## Further Thoughts
 
-### Dimensionality and Representing Experience
+### Representing Experience
 
 Can we even describe human experiences mathematically? One a scale of one to five, how was your day today? Please rate your experience at the doctor's office out of ten. Did you like this restaurant you just ate at? Give them a five-star review.
 
-Please give me one thousand numbers to describe to me in perfect detail the experience of leaving home for college. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? Did your legs want to walk toward the gate thirty minutes early? Were you tired? How was the flight? Were you scared, or excited? 
+Please give me one thousand numbers to describe to me in perfect detail the experience of leaving home for college. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? Did your legs want to walk toward the gate thirty minutes early? Was your heart beating faster than normal? Were you tired? How was the flight? Were you scared, or excited?
 
-A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions [citation needed]. And who's to say this number is fixed? Some of our experiences are more complex than others. I'm not going to try to give an exact number here, but I personally land on the side of more dimensions. I like the idea of human experience being very full, to the point where you'll need a lot to represent it properly. [This quote](https://www.imdb.com/title/tt0119217/quotes/) from Good Will Hunting captures this idea best.
+Some of these things are hard to quantify.
 
-### Sparsity
+A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions [citation needed]. And who's to say this number is fixed? Some of our experiences are more complex than others. I'm not going to try to give an exact number here, but I personally land on the side of more dimensions. I like the idea of human experience being very full, to the point where you'll need a lot to represent it properly. The first quote [here](https://www.imdb.com/title/tt0119217/quotes/) from the movie Good Will Hunting (1997) captures this idea best.
+
+A bashy to this question is to say something like, "experience is a product of my brain" and record the state of each neuron in the brain at any given point in time. The human brain has somewhere in the neighborhood of 86 billion neurons, so I think it is safe to say an upper bound of the dimensionality of human experience is in the neighborhood of 100 billion.
+
+### Dimensionality and Sparsity
+
+In high-dimensional spaces, we run into many problems. Intuitively, as dimensions increase the volume of the space grows exponentially, making data points sparse and finding neighbors difficult. Distances between points tend to converge, so it becomes hard to say two points are "close to" or "far from" each other.
+
+For our high-dimensional experiential landscape, we are all almost certainly kicking around our red balls of yarn farther and farther away from each other, and we wouldn't even be able to tell.
