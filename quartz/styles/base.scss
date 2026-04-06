@@ -20,7 +20,7 @@ body {
   box-sizing: border-box;
   background-color: var(--light);
   font-family: var(--bodyFont);
-  font-size: 1.1rem;
+  font-size: 1.1em;
   color: var(--darkgray);
 }
 
@@ -60,6 +60,7 @@ path[class~="typst-shape"] {
 .math {
   &.math-display {
     text-align: center;
+    font-size: 1.1rem;
   }
 }
 
