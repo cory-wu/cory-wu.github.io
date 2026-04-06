@@ -147,7 +147,7 @@ Some of these things are hard to quantify.
 
 A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions [citation needed]. And who's to say this number is fixed? Some of our experiences are more complex than others. I'm not going to try to give an exact number here, but I personally land on the side of more dimensions. I like the idea of human experience being very full, to the point where you'll need a lot to represent it properly. The first quote [here](https://www.imdb.com/title/tt0119217/quotes/) from the movie Good Will Hunting (1997) captures this idea best.
 
-A bashy to this question is to say something like, "experience is a product of my brain" and record the state of each neuron in the brain at any given point in time. The human brain has somewhere in the neighborhood of 86 billion neurons, so I think it is safe to say an upper bound of the dimensionality of human experience is in the neighborhood of 100 billion.
+A bashy answer to this question is to say something like, "experience is a product of my brain" and record the state of each neuron in the brain at any given point in time. The human brain has somewhere in the neighborhood of 86 billion neurons, so I think it is safe to say an upper bound of the dimensionality of human experience is in the neighborhood of 100 billion.
 
 ### Dimensionality and Sparsity
 
