@@ -135,12 +135,14 @@ The right-hand side gives the recipe for answering that question. At each moment
 This expression is intentionally broad, computationally intractable, and most certainly *wrong*. But it's just a model, and statistician George Box said that "All models are wrong, but some are useful." While the usefulness of this model still needs to be probed, there are a few avenues it affords for further thought.
 
 ---
-## Further Thought
+## Further Thoughts
 
 ### Dimensionality and Representing Experience
 
-Can we even describe human experiences mathematically? One a scale of one to five, how was your day today? Please rate your experience at the doctor's office today out of ten. 
+Can we even describe human experiences mathematically? One a scale of one to five, how was your day today? Please rate your experience at the doctor's office out of ten. Did you like this restaurant you just ate at? Give them a five-star review.
 
-Please give me one thousand numbers to describe to me the moment you left home for college. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? Did your legs want to walk toward the gate thirty minutes early? Were you tired? How was the flight? Were you scared, or excited? 
+Please give me one thousand numbers to describe to me in perfect detail the experience of leaving home for college. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? Did your legs want to walk toward the gate thirty minutes early? Were you tired? How was the flight? Were you scared, or excited? 
 
-A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions [citation needed]. Who's to say this number is fixed? Some of our experiences are more complex than others.
+A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions [citation needed]. And who's to say this number is fixed? Some of our experiences are more complex than others. I'm not going to try to give an exact number here, but I personally land on the side of more dimensions. I like the idea of human experience being very full, to the point where you'll need a lot to represent it properly. [This quote](https://www.imdb.com/title/tt0119217/quotes/) from Good Will Hunting captures this idea best.
+
+### Sparsity
