@@ -28,7 +28,7 @@ This idea is fascinating to me. *The set of all possible human experiences.* It'
 
 ## A Formalization of the Landscape
 
-For simplicity, let's assume we live life in discrete time. I'm pretty sure the math here can be generalized to continuous-time models, but I'm not going to do that here.
+For simplicity, let's assume we live life in discrete time. I'm pretty sure the math here can be generalized to continuous-time models, but I'm not going to do that here. Also feel free to skip this section because it's full of math jargon.
 
 ### Trajectories and the landscape itself
 
@@ -128,7 +128,7 @@ $$
 p(x_{t+1:\infty} \mid h_t) = \int \prod_{s = t}^\infty \pi(a_s \mid h_s) p(x_{s+1}\mid h_s, a_s, w_s) p(w_s\mid h_s) \: da_{t: \infty} \: dw_{t:\infty}
 $$
 
-The left-hand side of the equation above gives a full distribution over every possible way your life could unfold from now, given your history: "What's tomorrow and the day after going to look like?" 
+The left-hand side of the equation above gives a full distribution over every possible way your life could unfold from now, given your history: "What's tomorrow and the days after going to look like?" 
 
 The right-hand side gives the recipe for answering that question. At each moment, three things interact. Your policy $\pi(a_s \mid h_s)$ encodes how you tend to act given your history, the transition $p(x_{s+1} \mid h_s, a_s, w_s)$, which determines how those actions and the world combine to move you forward, and $p(w_s \mid h_s)$, which captures how the world you face is itself shaped by your past. The product chains the interactions together over time, and we integrate over all possible actions and world states to average out the uncertainty from our actions and the uncertainty from the world.
 
@@ -136,3 +136,13 @@ This expression is intentionally broad, computationally intractable, and most ce
 
 ---
 ## Further Thought
+
+### Dimensionality and Representing Experience
+
+Can we even describe human experiences mathematically? One a scale of one to five, how was your day today? Please rate your experience at the doctor's office today out of ten. 
+
+Please give me one thousand numbers to describe to me the moment you left home for the first time. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? How was the flight? Were you scared, or excited?
+
+Using just one thousand numbers, describe to me every element your very first kiss. How old were you? Where was it? Did your heart flutter? How long did the ensuing relationship last?
+
+Choose one thousand numbers to 
