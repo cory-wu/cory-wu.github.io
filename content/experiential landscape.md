@@ -24,7 +24,7 @@ The way that our lives unfold, how our red strings unravel, is out of our contro
 
 ---
 
-This idea is fascinating to me. *The set of all possible human experiences.* It's quite literally everything I could possibly imagine. In the rest of this piece I want to explore this idea further and dive into some of its eerily beautiful implications. I'll start with a statistical formalization to help probe some ideas hiding behind the landscape, then discuss other thoughts I have about the experiential landscape.
+This idea is fascinating to me. *The set of all possible human experiences.* It's quite literally everything I could possibly imagine. I'll start with a statistical formalization to help probe some ideas hiding behind the landscape, then discuss other thoughts I have about the experiential landscape.
 
 ## A Formalization of the Landscape
 
@@ -56,11 +56,11 @@ This distribution represents the set of all ways a life could unfold from the pr
 
 To distinguish personal choice from external circumstance, let us write the next state as depending on both an action or decision $a_t \in \mathcal{A}$ and a world state/external context $w_t \in \mathcal{W}$. Then we can imagine transitions of the form
 $$
-x_{t+1} \sim p(\cdot \mid x_t, a_t, w_t).
+x_{t+1} \sim p(\cdot \mid h_t, a_t, w_t).
 $$
-Here, $x_t$ captures who/where you are (in life) now, $a_t$ captures what you choose to do at this moment, and $w_t$ describes what the world presents to you. The transition kernel $p$ describes how these combine to shape the next step in your life, though the exact form of this is not important.
+Here, $h_t$ captures who/where you are (in life) now, $a_t$ captures what you choose to do at this moment, and $w_t$ describes what the world presents to you. The transition kernel $p$ describes how these combine to shape the next step in your life, though the exact form of this is not important.
 
-The idea here is that people don't choose their entire future directly; rather, their future is determined locally, and those local choices push them into regions of the experiential landscape from which different futures become more or less likely. As a quick example, we can imagine that some arbitrary decision $\tilde a_t$ which says "save all of the money you currently have and spend as little as possible moving forward" would push a person abiding this rule to grow their wealth, literally affording a different life than someone whose decision rule $\tilde a'_t$ says to spend their money however they please.
+The idea here is that people don't choose their entire future directly; rather, it is determined locally, and those local choices push them into regions of the experiential landscape where different futures become more or less likely. As a quick example, we can imagine that some arbitrary decision $\tilde a_t$ which says "save all of the money you currently have and spend as little as possible moving forward" would push a person abiding this rule to grow their wealth, literally affording a different life than someone whose decision rule $\tilde a'_t$ says to spend their money however they please.
 
 ### The Bayesian Update
 
@@ -76,3 +76,63 @@ p(x_{t+1} \mid h_t, a_t),
 $$
 which changes the question at hand to: "If I am this kind of person now (based on everything up until today) *and* I do this certain action today, what kind of person will I be tomorrow?"
 
+We can also include information about our environment using $w_t$, which completes the picture:
+$$
+p(x_{t+1}\mid h_t, a_t, w_t).
+$$
+This is the answer to "If I am this kind of person now (based on everything up until today), *and* I've surrounded myself with these kinds of friends/live in Boston/it is summertime *and* I do this certain action today, what kind of person will I be tomorrow?"
+
+And even better, we can get a distribution over all future paths:
+$$
+p(\tau_{t+1:\infty} \mid h_t, a_t, w_t).
+$$
+
+The present moment determines not a single future, but a posterior distribution over possible futures, obtained by conditioning on everything that has happened so far, everything you do, and the current world you live in.
+
+### On Character
+
+Our decisions follow patterns. I wake up every day and brush my teeth. Every night before bed I drink a glass of water. 
+
+Let 
+$$
+\pi(a_t \mid h_t)
+$$
+be a *policy*, or distribution over actions given one’s history. This policy is meant to capture character, habit, temperament, learned values, discipline, and anything to do with decision . Two people with identical outward circumstances may still induce different future distributions because they act according to different policies.
+
+At this point, the future is shaped by two forms of uncertainty. We have **uncertainty in the world**, shaped by $p(x_{t+1} \mid h_t, a_t, w_t)$, and we have **uncertainty in the person**, shaped by the policy $\pi(a_t \mid h_t)$.
+
+### Changing the World
+
+The world you live in tomorrow is not independent of who you are today. Where you live, who you spend time with, and what opportunities present themselves are all shaped, at least in part, by your history. For example, that I chose to study statistics in my sophomore year of college meant that a likely world state for me is the statistics lounge. This is formalized as
+$$
+w_t \sim p(\cdot \mid h_t),
+$$
+giving the distribution over external circumstances conditions on a person's history.
+
+### Early Life and Initialization
+
+We are all born into different families in different worlds. The initial starting point of life, or where your red string starts, can be summarized with
+$$
+x_0 \sim p(\cdot \mid w_0).
+$$
+Here $w_0$ encodes relevant information about the environment you are born into. Think things like your family, socioeconomic context, culture, schooling, hometown, and so on. Where your life begins is determined by these conditions.
+
+### The Full Generative Picture
+
+I typically like a fair amount of mathematical rigor, and the full generative model here is as follows:
+$$
+x_0 \sim p(x_0 \mid w_0), \quad a_t \sim \pi(\cdot \mid h_t), \quad x_{t+1} \sim p(\cdot \mid h_t, a_t, w_t).
+$$
+The distribution over futures is then 
+$$
+p(x_{t+1:\infty} \mid h_t) = \int \prod_{s = t}^\infty \pi(a_s \mid h_s) p(x_{s+1}\mid h_s, a_s, w_s) p(w_s\mid h_s) \: da_{t: \infty} \: dw_{t:\infty}
+$$
+
+The left-hand side of the equation above gives a full distribution over every possible way your life could unfold from now, given your history: "What's tomorrow and the day after going to look like?" 
+
+The right-hand side gives the recipe for answering that question. At each moment, three things interact. Your policy $\pi(a_s \mid h_s)$ encodes how you tend to act given your history, the transition $p(x_{s+1} \mid h_s, a_s, w_s)$, which determines how those actions and the world combine to move you forward, and $p(w_s \mid h_s)$, which captures how the world you face is itself shaped by your past. The product chains the interactions together over time, and we integrate over all possible actions and world states to average out the uncertainty from our actions and the uncertainty from the world.
+
+This expression is intentionally broad, computationally intractable, and most certainly *wrong*. But it's just a model, and statistician George Box said that "All models are wrong, but some are useful." While the usefulness of this model still needs to be probed, there are a few avenues it affords for further thought.
+
+---
+## Further Thought
