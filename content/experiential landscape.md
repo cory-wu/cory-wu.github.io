@@ -28,7 +28,7 @@ This idea is fascinating to me. *The set of all possible human experiences.* It'
 
 ## A Formalization of the Landscape
 
-For simplicity, let's assume we live life in discrete time. I'm pretty sure the math here can be generalized to continuous-time models, but I'm not going to do that here. Also feel free to skip this section because it's full of math jargon.
+For simplicity, let's assume we live life in discrete time. I'm pretty sure the math can be generalized to continuous-time models, but I'm not going to do that here. Also feel free to skip this section because it's full of math jargon.
 
 ### Trajectories and the landscape itself
 
@@ -145,7 +145,7 @@ Please give me one thousand numbers to describe to me in perfect detail the expe
 
 Some of these things are hard to quantify.
 
-A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions [citation needed]. And who's to say this number is fixed? Some of our experiences are more complex than others. I'm not going to try to give an exact number here, but I personally land on the side of more dimensions. I like the idea of human experience being very full, to the point where you'll need a lot to represent it properly. The first quote [here](https://www.imdb.com/title/tt0119217/quotes/) from the movie Good Will Hunting (1997) captures this idea best.
+A large body of literature has tried to assign a way of encoding our experiences into a finite number of dimensions. And who's to say this number is fixed? Some of our experiences are more complex than others. I'm not going to try to give an exact number here, but I personally land on the side of more dimensions. I like the idea of human experience being very full, to the point where you'll need a lot to represent it properly. The first quote [here](https://www.imdb.com/title/tt0119217/quotes/) from the movie Good Will Hunting (1997) captures this idea best.
 
 A bashy answer to this question is to say something like, "experience is a product of my brain" and record the state of each neuron in the brain at any given point in time. The human brain has somewhere in the neighborhood of 86 billion neurons, so I think it is safe to say an upper bound of the dimensionality of human experience is in the neighborhood of 100 billion.
 
@@ -153,6 +153,17 @@ A bashy answer to this question is to say something like, "experience is a produ
 
 In high-dimensional spaces, we run into many problems. Intuitively, as dimensions increase the volume of the space grows exponentially, making data points sparse and finding neighbors difficult. Distances between points tend to converge, so it becomes hard to say two points are "close to" or "far from" each other. Two points could be close in one dimension, but far apart in another dimension, overwhelming any distance metric (especially Euclidean distance).
 
-For our high-dimensional experiential landscape, we are all likely kicking around our red balls of yarn farther and farther away from each other, and we wouldn't even be able to tell. This also suggests that if you and I were to vacation with each other, despite us eating at the same restaurants, walking the same streets of town, and swimming in the same beach, we could have been pushing our balls of yarn in completely different ways, leading to different experiences.
+For our high-dimensional experiential landscape, we are all likely kicking around our red balls of yarn farther and farther away from each other, and we wouldn't even be able to tell. This also suggests that if you and I were to vacation with each other, despite us eating at the same restaurants, walking the same streets of town, and swimming in the same beach, there's no guarantee that we were "experiencing" the same things.
 
-But that's absurd--we ...
+This is because you and I are probably at very different parts of life, thus in very different parts of the experiential landscape. Our internal states (memories, expectations, stress levels, goals, identities, prior experiences) may differ along hundreds or thousands of latent dimensions that dominate whatever similarity exists in the observable environment. Our vacation either a) pushes us in the same directions through the experiential landscape or b) pushes us toward each other (whatever the notion of "toward" means in high dimensions). In this sense, two people can share a vacation without sharing an experience.
+
+It's a little hard to believe, but there's two ways to see this more clearly. 
+
+If I went to a local restaurant and order spiced beef empanadas, I'll have a pretty good dining experience. If I go back a month later to the same restaurant, and order spiced beef empanadas, they'll probably still be pretty good, but it just won't be the same experience. The restaurant didn't change, the food is the same, but I've moved along my life trajectory for an entire month. Same meal, different experience.
+
+Another way to think about it to assume human experience is sparse; though our experiences may be captured across hundreds of thousands of dimensions, only a few are meaningful. This follows from [sparse coding](https://en.wikipedia.org/wiki/Sparse_dictionary_learning). In this sense, on our shared vacation our experiences align on those meaningful dimensions. Two people may inhabit the same external event without sharing the same total experience, yet still overlap where it matters most. We may carry around an enormous experiential state space, but only a small subset of dimensions meaningfully lights up in response to a situation. On our vacation, the most salient dimensions count--perhaps wonder, relaxation, novelty, comfort, adventure, disappointment. If we go through those together, though we are never experiencing precisely the same world, but neither are we locked in total isolation from one another.
+
+Because of course we aren't. We share tears, we laugh with each other, and we love. However vast and private our inner landscapes may be, there are still sparse and meaningful axes along which they can align.
+
+
+### Empathy
