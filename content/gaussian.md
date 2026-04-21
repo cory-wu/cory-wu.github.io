@@ -1,3 +1,3 @@
 ---
-title: Oh Gaussian My Dear Gaussian
+title: Gaussian
 ---

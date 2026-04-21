@@ -6,8 +6,6 @@ Tell me everything about you, and your disposition. I want to hear about what yo
 
 Now tell me about your world. I want to know about the apartment you grew up in. About the weeping willow you and your sister used to tell stories under. Everything about the schools you attended, your friends, your work, your parents, *share it all*. I'm listening.
 
-I want to build our experiential landscape.
-
 ---
 
 ## Introduction
@@ -20,7 +18,7 @@ What you, at this very moment, choose to do or not do thus decides everything th
 
 Follow the red string back to the moment you were born. The first few years of your life were (probabilistically) determined by the choices of your parents. They unraveled your red string for you, according to what they thought was best (or what they could do). Then, when you were a little older, you too could push your life forward. You learned to tie your shoes, practice your times tables, and read books. You built habits, developed a bedtime routine, and grew up.
 
-The way that our lives unfold, how our red strings unravel, is out of our control. But we follow patterns--probability distributions over our decisions--that make us who we are. We ask ourselves: "What would Dad do in this scenario?" or "How might I have turned out if I hadn't learned an instrument?" These questions dig at the idea of alternate timelines that describe other lives you could have lived, or other lives that other people could have lived. *That* is the experiential landscape; **it is the set of all possible human experiences in which our own lives fall on and travel around, looping about and intersecting with others.**
+The way that our lives unfold, how our red strings unravel, is out of our control. But we follow patterns--probability distributions over our decisions--that make us who we are. We ask ourselves: "What would Dad do in this scenario?" or "How might I have turned out if I hadn't learned an instrument?" These questions dig at the idea of alternate timelines that describe other lives you could have lived, or other lives that other people could have lived. *That* is the experiential landscape; **it is the set of all possible human experiences in which our own lives fall on and travel around, looping about and intersecting with others.** Each of us rolls around this common ground, going through well-trodden paths and discovering new peaks and valleys along the way.
 
 ---
 
@@ -28,11 +26,11 @@ This idea is fascinating to me. *The set of all possible human experiences.* It'
 
 ## A Formalization of the Landscape
 
-For simplicity, let's assume we live life in discrete time. I'm pretty sure the math can be generalized to continuous-time models, but I'm not going to do that here. Also feel free to skip this section because it's full of math jargon.
+For simplicity, let's assume we live life in discrete time. I'm pretty sure the math can be generalized to continuous-time models, but I'm not going to do that here. Also feel free to [skip this section](#further-thoughts) because it's full of math jargon.
 
 ### Trajectories and the landscape itself
 
-Let time be indexed by $t \in \{0,1,2,\dots\}$. At each time $t$, a person occupies some experiential state
+Let time be indexed by $t \in \{0,1,2,\dots\}$. At each time $t$, a person occupies some possible experiential state
 $$
 x_t \in \mathcal{X},
 $$
@@ -97,7 +95,7 @@ Let
 $$
 \pi(a_t \mid h_t)
 $$
-be a *policy*, or distribution over actions given one’s history. This policy is meant to capture character, habit, temperament, learned values, discipline, and anything to do with decision . Two people with identical outward circumstances may still induce different future distributions because they act according to different policies.
+be a *policy*, or distribution over actions given one’s history. This policy is meant to capture character, habit, temperament, learned values, discipline, and anything to do with decisions. Two people with identical outward circumstances may still induce different future distributions because they act according to different policies.
 
 At this point, the future is shaped by two forms of uncertainty. We have **uncertainty in the world**, shaped by $p(x_{t+1} \mid h_t, a_t, w_t)$, and we have **uncertainty in the person**, shaped by the policy $\pi(a_t \mid h_t)$.
 
@@ -107,7 +105,7 @@ The world you live in tomorrow is not independent of who you are today. Where yo
 $$
 w_t \sim p(\cdot \mid h_t),
 $$
-giving the distribution over external circumstances conditions on a person's history.
+giving the distribution over external circumstances conditioned on a person's history.
 
 ### Early Life and Initialization
 
@@ -134,12 +132,17 @@ The right-hand side gives the recipe for answering that question. At each moment
 
 This expression is intentionally broad, computationally intractable, and most certainly *wrong*. But it's just a model, and statistician George Box said that "All models are wrong, but some are useful." While the usefulness of this model still needs to be probed, there are a few avenues it affords for further thought.
 
+
+| ![Gaussian PCA](gaussian.gif) | 
+|:--:| 
+| *A twenty dimensional Gaussian random walk, projected into three dimensions with PCA. <br> Two of us tumble along the experiential landscape together.* |
+
 ---
 ## Further Thoughts
 
 ### Representing Experience
 
-Can we even describe human experiences mathematically? One a scale of one to five, how was your day today? Please rate your experience at the doctor's office out of ten. Did you like this restaurant you just ate at? Give them a five-star review.
+Can we even describe human experiences mathematically? On a scale of one to five, how was your day today? Please rate your experience at the doctor's office out of ten. Did you like this restaurant you just ate at? Give them a five-star review.
 
 Please give me one thousand numbers to describe to me in perfect detail the experience of leaving home for college. What was it like to turn your back on your parents, who were waving goodbye at the security checkpoint? Did your legs want to walk toward the gate thirty minutes early? Was your heart beating faster than normal? Were you tired? How was the flight? Were you scared, or excited?
 
@@ -149,7 +152,7 @@ A large body of literature has tried to assign a way of encoding our experiences
 
 A bashy answer to this question is to say something like, "experience is a product of my brain" and record the state of each neuron in the brain at any given point in time. The human brain has somewhere in the neighborhood of 86 billion neurons, so I think it is safe to say an upper bound of the dimensionality of human experience is in the neighborhood of 100 billion.
 
-### Dimensionality and Sparsity
+### Dimensionality, Sparsity, and Empathy
 
 In high-dimensional spaces, we run into many problems. Intuitively, as dimensions increase the volume of the space grows exponentially, making data points sparse and finding neighbors difficult. Distances between points tend to converge, so it becomes hard to say two points are "close to" or "far from" each other. Two points could be close in one dimension, but far apart in another dimension, overwhelming any distance metric (especially Euclidean distance).
 
@@ -157,13 +160,18 @@ For our high-dimensional experiential landscape, we are all likely kicking aroun
 
 This is because you and I are probably at very different parts of life, thus in very different parts of the experiential landscape. Our internal states (memories, expectations, stress levels, goals, identities, prior experiences) may differ along hundreds or thousands of latent dimensions that dominate whatever similarity exists in the observable environment. Our vacation either a) pushes us in the same directions through the experiential landscape or b) pushes us toward each other (whatever the notion of "toward" means in high dimensions). In this sense, two people can share a vacation without sharing an experience.
 
-It's a little hard to believe, but there's two ways to see this more clearly. 
+It's a little hard to believe, but there are two ways to view this.
 
-If I went to a local restaurant and order spiced beef empanadas, I'll have a pretty good dining experience. If I go back a month later to the same restaurant, and order spiced beef empanadas, they'll probably still be pretty good, but it just won't be the same experience. The restaurant didn't change, the food is the same, but I've moved along my life trajectory for an entire month. Same meal, different experience.
+If I went to a local restaurant and order spiced beef empanadas, I'll have a pretty good dining experience. If I go back a month later to the same restaurant, and order spiced beef empanadas, they'll probably still be pretty good, but it just won't be the same experience. The restaurant didn't change, the food is the same, but I've moved along my life trajectory for an entire month. Even though it's the same meal, they'll induce different feelings. Analogously, our time together at the restaurant finds us at different parts of the landscape.
 
 Another way to think about it to assume human experience is sparse; though our experiences may be captured across hundreds of thousands of dimensions, only a few are meaningful. This follows from [sparse coding](https://en.wikipedia.org/wiki/Sparse_dictionary_learning). In this sense, on our shared vacation our experiences align on those meaningful dimensions. Two people may inhabit the same external event without sharing the same total experience, yet still overlap where it matters most. We may carry around an enormous experiential state space, but only a small subset of dimensions meaningfully lights up in response to a situation. On our vacation, the most salient dimensions count--perhaps wonder, relaxation, novelty, comfort, adventure, disappointment. If we go through those together, though we are never experiencing precisely the same world, but neither are we locked in total isolation from one another.
 
-Because of course we aren't. We share tears, we laugh with each other, and we love. However vast and private our inner landscapes may be, there are still sparse and meaningful axes along which they can align.
+Because of course we aren't. We share tears, we laugh with each other, and we love. However vast and private our inner landscapes may be, there are still sparse and meaningful axes along which they do align.
 
+ ## Conclusion
 
-### Empathy
+I'm fortunate enough to have met a lot of really, *really* cool people in my life. My best friends have their interesting stories, cherished memories, highest highs, lowest lows, and daily mundanities that have dragged them through their lives. As do I. As do the strangers I see on my commute to class, the waiter serving the beef empanadas I've ordered. As do my parents. 
+
+When we start to learn about the parts of the experiential landscape we've both traveled through, we really start to understand each other. It's a basis for the empathy we have for each other, and it's something we should never let go.
+
+So I ask, what parts of the experiential landscape have you been to? Perhaps we can go visit again sometime.
