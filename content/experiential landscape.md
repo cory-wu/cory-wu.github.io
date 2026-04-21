@@ -164,7 +164,6 @@ Another way to think about it to assume human experience is sparse; though our e
 Because of course we aren't. We share tears, we laugh with each other, and we love. However vast and private our inner landscapes may be, there are still sparse and meaningful axes along which they do align. Maybe it looks a little something like this:
 
 
-
 | ![Gaussian PCA](gaussian.gif) | 
 |:--:| 
 | *A twenty dimensional Gaussian random walk, projected into three dimensions with PCA. <br> Two of us tumble along the experiential landscape together.* |
