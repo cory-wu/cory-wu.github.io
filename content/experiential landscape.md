@@ -132,11 +132,6 @@ The right-hand side gives the recipe for answering that question. At each moment
 
 This expression is intentionally broad, computationally intractable, and most certainly *wrong*. But it's just a model, and statistician George Box said that "All models are wrong, but some are useful." While the usefulness of this model still needs to be probed, there are a few avenues it affords for further thought.
 
-
-| ![Gaussian PCA](gaussian.gif) | 
-|:--:| 
-| *A twenty dimensional Gaussian random walk, projected into three dimensions with PCA. <br> Two of us tumble along the experiential landscape together.* |
-
 ---
 ## Further Thoughts
 
@@ -166,7 +161,14 @@ If I went to a local restaurant and order spiced beef empanadas, I'll have a pre
 
 Another way to think about it to assume human experience is sparse; though our experiences may be captured across hundreds of thousands of dimensions, only a few are meaningful. This follows from [sparse coding](https://en.wikipedia.org/wiki/Sparse_dictionary_learning). In this sense, on our shared vacation our experiences align on those meaningful dimensions. Two people may inhabit the same external event without sharing the same total experience, yet still overlap where it matters most. We may carry around an enormous experiential state space, but only a small subset of dimensions meaningfully lights up in response to a situation. On our vacation, the most salient dimensions count--perhaps wonder, relaxation, novelty, comfort, adventure, disappointment. If we go through those together, though we are never experiencing precisely the same world, but neither are we locked in total isolation from one another.
 
-Because of course we aren't. We share tears, we laugh with each other, and we love. However vast and private our inner landscapes may be, there are still sparse and meaningful axes along which they do align.
+Because of course we aren't. We share tears, we laugh with each other, and we love. However vast and private our inner landscapes may be, there are still sparse and meaningful axes along which they do align. Maybe it looks a little something like this:
+
+
+
+| ![Gaussian PCA](gaussian.gif) | 
+|:--:| 
+| *A twenty dimensional Gaussian random walk, projected into three dimensions with PCA. <br> Two of us tumble along the experiential landscape together.* |
+
 
  ## Conclusion
 
