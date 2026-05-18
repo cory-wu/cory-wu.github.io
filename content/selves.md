@@ -29,17 +29,25 @@ Well, that sucks. I'm not quite satisfied with that, and there are a few additio
 ## Nuances in Language
 The astute reader may have noticed in the six-year-old me's brief self-dialogue the italicized "*I*" and the regular "I". These are different things; the italicized "*I*" is the first-person pronoun, and the regular "I" is the concept of self. 
 
-It's possible that my little self was consciously learning that the word "I" that is used in the sentences "I am six years old," or "I like to eat chocolate cake" was indeed referring to the six-year-old who liked chocolate cake, that being me. That is, there actually isn't a distinction between what "I" means in
+It's possible that my little self was consciously learning that the word "I" that is used in the sentences "I am six years old," or "I like to eat chocolate cake" was indeed referring to the six-year-old who liked chocolate cake, that being me. The first-person pronoun *I* is only used by those speaking to refer to themselves. But where did the infinite regress come from? 
 
 Consider the following:
 $$
 \textit{I} \text{ am I.}
 $$
-Using the *Italic*/Roman distinction for I's above, this sentence semantically says, "The first-person pronoun 'I' is the self". Now consider:
+Using the *Italic*/Roman distinction for I's above, this sentence semantically says, "The first-person pronoun *I* is the self", so that "The first-person pronoun *I* indicates the person speaking." Now consider:
 $$
 \textrm{I am }\textit{I}.
 $$
-This sentence now says ,"The self is the first-person pronoun 'I'". 
+This sentence now says ,"The self is the first-person pronoun *I*", or, for more clarity, "the self can be fully captured by the first-person pronoun *I*".
+
+These two sentences are two sides of the same coin; and if you drop notation, they are literally the same sentence! They both point at a definition for "I" that causes a circularity:
+$$
+\text{``I'' am the one who says ``I''.}
+$$
+
+
+
 
 ## Brain Development and our Identities
 
