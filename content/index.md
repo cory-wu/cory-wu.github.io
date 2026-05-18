@@ -1,7 +1,6 @@
 ---
 title: The Content Garden
 ---
-
 click to forgive is my personal site where i sit around and think a little. i'll be adding to this for the foreseeable future.
 
 ## About
@@ -14,4 +13,6 @@ I'm a third-year undergraduate at Harvard University studying statistics and neu
 ## Current Works
 
 here are a few ideas i'm writing about right now:
+- [[stunting|ai in children]]
 - a couple things about [[I|i]]
+- the [[Wandering Mind|wandering mind]]

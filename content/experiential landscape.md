@@ -1,7 +1,6 @@
 ---
 title: The Experiential Landscape
 ---
-
 Tell me everything about you, and your disposition. I want to hear about what you were like since the moment you were born. Everything you have ever seen, every move you've made, everything about your health, your genetic makeup, *everything*. It's all important to me.
 
 Now tell me about your world. I want to know about the apartment you grew up in. About the weeping willow you and your sister used to tell stories under. Everything about the schools you attended, your friends, your work, your parents, *share it all*. I'm listening.
