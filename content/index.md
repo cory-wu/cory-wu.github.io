@@ -14,5 +14,5 @@ I'm a third-year undergraduate at Harvard University studying statistics and neu
 
 here are a few ideas i'm writing about right now:
 - [[stunting|ai in children]]
-- a couple things about [[I|i]]
+- a couple things about [[selves|i]]
 - the [[Wandering Mind|wandering mind]]
