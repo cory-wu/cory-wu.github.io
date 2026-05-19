@@ -29,7 +29,7 @@ Well, that sucks. I'm not quite satisfied with that, and there are a few additio
 ## Nuances in Language
 The astute reader may have noticed in the six-year-old me's brief self-dialogue the italicized "*I*" and the regular "I". These are different things; the italicized "*I*" is the first-person pronoun, and the regular "I" is the concept of self. 
 
-It's possible that my little self was consciously learning that the word "I" that is used in the sentences "I am six years old," or "I like to eat chocolate cake" was indeed referring to the six-year-old who liked chocolate cake, that being me. The first-person pronoun *I* is only used by those speaking to refer to themselves. But where did the infinite regress come from? 
+It's possible that my little self was consciously learning that the word "I" that is used in the sentences "I am six years old" or "I like to eat chocolate cake" was indeed referring to the six-year-old who liked chocolate cake, that being me. The first-person pronoun *I* is only used by those speaking to refer to themselves. But where did the infinite regress come from? 
 
 Consider the following:
 $$
@@ -43,14 +43,15 @@ This sentence now says ,"The self is the first-person pronoun *I*", or, for more
 
 These two sentences are two sides of the same coin; and if you drop notation, they are literally the same sentence! They both point at a definition for "I" that causes a circularity:
 $$
-\text{``I'' am the one who says ``I''.}
+\text{``I'' am the one who says ``I'',}
 $$
+which depends on the very perspective it is trying to explain. That is, the first-person pronoun *I* can only exist because I, the self, exist. The self is not identified externally; it works only from within the experience of being the speaker. 
 
+Forgive me for how convoluted that may have been, so think about how "I" is different from other words. Anybody could refer to me as "Cory" or "the child in the playroom". Anyone could refer to you as your first and last name, or "the person reading Click To Forgive". However, we can both say "I" and refer to different things; everyone can say “I,” but no one else’s “I” refers to me. 
 
-
-
+Words like "I", whose meanings shift depending entirely on the context in which it is spoken, are called **indexicals**. (consistent with Hofstadter)
 ## Brain Development and our Identities
-
+I haven't ever successfully reproduced this phenomenon ever again. One reason is I've probably developed a much more robust sense of self; I know who I am....
 
 ## Conclusions
 
