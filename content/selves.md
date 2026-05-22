@@ -26,16 +26,18 @@ Years later, I read Douglas Hofstadter's books *Gödel, Escher, Bach: an Eternal
 Hofstadter's thesis is very reminiscent of the infinite loop I got stuck in many years prior: "I am *I* am I am *I*." Yet, however assertive I told myself this, I lacked a definitive certainty to the statement. In other words, I had no proof. In fact, Hofstadter devotes a considerable portion of the two books to introducing **Gödel's Incompleteness Theorem**, which, in a gross oversimplification, posits that in any system of logic, there will be true statements that cannot be proven true, and false statements that cannot be proven false. In our context, that "*I* am I" might be true or false, but I will never know for certain. 
 
 Well, that sucks. I'm not quite satisfied with that, and there are a few additional perspectives I want to consider before putting a pin in it for now.
-## Nuances in Language
+## Language
 The astute reader may have noticed in the six-year-old me's brief self-dialogue the italicized "*I*" and the regular "I". These are different things; the italicized "*I*" is the first-person pronoun, and the regular "I" is the concept of self. 
 
-It's possible that my little self was consciously learning that the word "I" that is used in the sentences "I am six years old" or "I like to eat chocolate cake" was indeed referring to the six-year-old who liked chocolate cake, that being me. The first-person pronoun *I* is only used by those speaking to refer to themselves. But where did the infinite regress come from? 
+It's possible that my little self was consciously learning that the word "I" that is used in the sentences "I am six years old" or "I like to eat chocolate cake" was indeed referring to the six-year-old who liked chocolate cake, that being me. The first-person pronoun *I* is only used by those speaking to refer to themselves. But where did the infinite regress come from?
 
-Consider the following:
+### The I Loop
+
+Consider the following *proposed* answer:
 $$
 \textit{I} \text{ am I.}
 $$
-Using the *Italic*/Roman distinction for I's above, this sentence semantically says, "The first-person pronoun *I* is the self", so that "The first-person pronoun *I* indicates the person speaking." Now consider:
+Using the *Italic*/Roman distinction for I's above, this sentence semantically says, "The first-person pronoun *I* is the self", so that "The first-person pronoun *I* indicates the person speaking". Now consider:
 $$
 \textrm{I am }\textit{I}.
 $$
@@ -45,13 +47,35 @@ These two sentences are two sides of the same coin; and if you drop notation, th
 $$
 \text{``I'' am the one who says ``I'',}
 $$
-which depends on the very perspective it is trying to explain. That is, the first-person pronoun *I* can only exist because I, the self, exist. The self is not identified externally; it works only from within the experience of being the speaker. 
+which depends on the very perspective it is trying to explain. That is, the first-person pronoun *I* can only exist because I, the self, exist. The self is not identified externally; it works only from within the experience of being the speaker. Let's refer to this as the "I Loop".
 
-Forgive me for how convoluted that may have been, so think about how "I" is different from other words. Anybody could refer to me as "Cory" or "the child in the playroom". Anyone could refer to you as your first and last name, or "the person reading Click To Forgive". However, we can both say "I" and refer to different things; everyone can say “I,” but no one else’s “I” refers to me. 
+Forgive me for how convoluted that may have been, so think about how "I" is different from other words. Anybody could refer to me as "Cory" or "the child in the playroom". Anyone could refer to you as your first and last name, or "the person reading Click To Forgive". However, we can both say "I" and refer to different things; everyone can say “I,” but no one else’s “I” refers to me.
+### Indexical Loops
+Words whose meanings shift depending entirely on the context in which it is spoken, like "I", are called **indexicals**. Most pronouns fall into this—"you", "me", "us", "here", "now", "today", "yesterday", "she", "he", and "that". It's cool that these words are very common, like, *incredibly common*. I'm willing to bet that since you learned how to speak, there wasn't a single day you didn't utter an indexical.
 
-Words like "I", whose meanings shift depending entirely on the context in which it is spoken, are called **indexicals**. (consistent with Hofstadter)
+Now I'm not a linguist nor a philosopher, (and for further reading on indexicals see [here](https://plato.stanford.edu/entries/indexicals/)), but indexicals might shine some insight onto why the I Loop comes to be. As hinted to above, indexicals afford two different kinds of meaning. One is a sort of linguistic meaning ([David Kaplan](https://www.asc.ohio-state.edu/roberts.21/NYU/Kaplan.demonstratives.pdf) calls this the "character" of the word), the other a kind of circumstantial meaning. For example, the linguistic meaning of the word "I" is a self-referential expression for a singular entity, whereas the circumstantial meaning is the person who said "I". 
+
+Generally, indexicals follow this pattern: the linguistic "character" is invariant across contexts, while the circumstantial meaning changes depending on who says it. Here are a few more examples:
+| Indexical | (Character) | Circumstantial Meaning |
+|-----------|------|------------------------|
+| I | singular self-referential | John, when he says "*I* need a nap" |
+| you | second-person referential | Mary, when John says to her "*You* are really cute" |
+| here | the location of the speaker | Cambridge, MA, when Will Hunting says "I work *here*" |
+| now | the time of utterance | 6:33 PM on May 21st, 2026, as "this text was written *now*" |
+| this | a proximal referent | the particular object indicated | 
+| that | a distal referent | the particular object indicated at a distance |
+
+So we've begun to unpack some of the complexities behind indexicals, so let's focus once again back on the I Loop:
+$$
+\text{I am I.}
+$$
+
+
+when I tries to think about I, and tell itself about I's?
+
 ## Brain Development and our Identities
 I haven't ever successfully reproduced this phenomenon ever again. One reason is I've probably developed a much more robust sense of self; I know who I am....
 
 ## Conclusions
 
+## References
