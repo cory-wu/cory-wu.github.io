@@ -1,3 +1,3 @@
 ---
-title: The Great Stunting
+title: The Great Dumbening
 ---
