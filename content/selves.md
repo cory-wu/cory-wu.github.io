@@ -97,9 +97,9 @@ Years ago, before my sense of self was fully developed, my six-year-old self got
 
 At some point in my life, I've become comfortable with the "truthiness" of the statement "I am I". Before, I wasn't able to say it for certain (prove, even), but I haven't since been able to recreate the sheer uneasiness I first felt when pondering the question: "What is I"? If you believe anything I say above, then this is because I've developed a much stronger sense of self. I'm past the major critical period of development, I survived elementary, middle, and high school, and the abstractions my brain uses are robust enough that I can (confidently) know I exist.[^4]
 
-All things considered:
+All things considered, to paraphrase Descartes:
 $$
-\text{I am I, because I am, I think.}
+\text{I am, therefore I am I, I think.}
 $$
 
 [^2]: If we were to assume that animal languages are tokenizable, then shouldn't we be able to identify indexicals by looking at "token frequency", that is, would the "I" token in bird calls show up as often as, say, the character 我 is used in Chinese? Birds probably have a sense of self, but do they think about themselves in a way like us humans? Are they vain?
