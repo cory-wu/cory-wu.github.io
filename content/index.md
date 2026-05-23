@@ -10,6 +10,8 @@ I'm a third-year undergraduate at Harvard University studying statistics and neu
 ## Favorite Works
 - [[experiential landscape|experiential landscapes]]
 
+## Other, Less Favorite Works
+- [[selves|(I)ndexicals]]
 ## Current Works
 
 here are a few ideas i'm writing about right now:
