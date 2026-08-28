@@ -13,7 +13,7 @@ I'm a fourth-year undergraduate at Harvard University studying statistics and ne
 ## Other, Less Favorite Works
 - [[selves|(I)ndexicals]]
 ## Current Works
-- [[space AI]]
+- [[space ai]]
 
 here are a few ideas i'm writing about right now:
 - [[stunting|ai in children]]
