@@ -29,6 +29,29 @@ test.describe('phone viewport', () => {
   });
 });
 
+test.describe('rotating from desktop to phone', () => {
+  test.use({ viewport: { width: 1280, height: 800 } });
+
+  test('re-frames like a fresh phone load, with the shed inside the viewport', async ({ page }) => {
+    await openGarden(page);
+    await page.setViewportSize({ width: 390, height: 844 });
+    // The shed sits near the top-centre of the frame, so "inside the viewport" alone
+    // also holds for the cropped desktop framing; compare against a fresh phone load too.
+    await page.waitForTimeout(SETTLE_MS);
+    const rotated = await landmarkPosition(page, SHED_ID);
+    expect(rotated.x).toBeGreaterThan(0);
+    expect(rotated.x).toBeLessThan(390);
+    expect(rotated.y).toBeGreaterThan(0);
+    expect(rotated.y).toBeLessThan(844);
+
+    await openGarden(page);
+    await page.waitForTimeout(SETTLE_MS);
+    const fresh = await landmarkPosition(page, SHED_ID);
+    expect(Math.abs(rotated.x - fresh.x)).toBeLessThan(2);
+    expect(Math.abs(rotated.y - fresh.y)).toBeLessThan(2);
+  });
+});
+
 test.describe('time of day review screenshots', () => {
   for (const time of ['06:30', '12:00', '18:00', '22:00']) {
     test(`captures the garden at ${time}`, async ({ page }, testInfo) => {

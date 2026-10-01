@@ -22,6 +22,8 @@ export interface StageOptions {
   onDemand: boolean;
   /** Test seam: clock in milliseconds. Defaults to performance.now. */
   now?: () => number;
+  /** Called with the new camera aspect after each valid resize. */
+  onResize?: (aspect: number) => void;
   /** Called once if a frame callback or render throws; the loop has already stopped. */
   onError?: (err: unknown) => void;
 }
@@ -121,6 +123,7 @@ export function createStage(host: HTMLElement, opts: StageOptions): Stage {
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
+    opts.onResize?.(camera.aspect);
     if (opts.onDemand) requestRender();
   }
 

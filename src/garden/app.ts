@@ -78,8 +78,10 @@ async function mountScene(
   const resetButton = requireElement(doc, 'reset-view');
   const reduced = mode === 'reduced';
 
+  let refit: ((aspect: number) => void) | null = null;
   const stage = createStage(host, {
     onDemand: reduced,
+    onResize: (aspect) => refit?.(aspect),
     renderer: deps.createRenderer?.(),
     // Frames only run after stage.start(), by which point failToFallback exists.
     onError: (err) => {
@@ -110,6 +112,10 @@ async function mountScene(
     });
     cleanup.push(() => controls.dispose());
     controls.resetView(stage.camera.aspect);
+    refit = controls.refit;
+    cleanup.push(() => {
+      refit = null;
+    });
 
     const diorama = buildDiorama();
     for (const message of validatePlacements(placements)) console.error(`garden: ${message}`);

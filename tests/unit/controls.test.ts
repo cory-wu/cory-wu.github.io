@@ -68,6 +68,54 @@ describe('resetView', () => {
   });
 });
 
+describe('refit', () => {
+  const PHONE = 390 / 844;
+  const DESKTOP = 1280 / 800;
+
+  it('moves out to the new fit distance when the viewport turns tall, keeping the angles', () => {
+    const { camera, gc, onChange } = setup();
+    press('ArrowLeft');
+    const before = spherical(camera);
+    gc.refit(PHONE);
+    const after = spherical(camera);
+    expect(after.radius).toBeCloseTo(fitDistance(PHONE), 6);
+    expect(after.radius).toBeGreaterThan(before.radius);
+    expect(after.theta).toBeCloseTo(before.theta, 6);
+    expect(after.phi).toBeCloseTo(before.phi, 6);
+    expect(onChange).toHaveBeenCalled();
+  });
+
+  it('moves back in when the user has not zoomed since the last fit', () => {
+    const { camera, gc } = setup();
+    gc.refit(PHONE);
+    gc.refit(DESKTOP);
+    expect(camera.position.length()).toBeCloseTo(fitDistance(DESKTOP), 6);
+  });
+
+  it('pulls a zoomed-in camera out to the fit distance', () => {
+    const { camera, gc } = setup();
+    camera.position.setLength(CAMERA.minDistance);
+    gc.controls.update();
+    gc.refit(DESKTOP);
+    expect(camera.position.length()).toBeCloseTo(fitDistance(DESKTOP), 6);
+  });
+
+  it('leaves a camera the user zoomed out beyond the fit alone', () => {
+    const { camera, gc } = setup();
+    camera.position.setLength(60);
+    gc.controls.update();
+    gc.refit(DESKTOP);
+    expect(camera.position.length()).toBeCloseTo(60, 6);
+    expect(camera.position.length()).toBeLessThanOrEqual(CAMERA.maxDistance);
+  });
+
+  it('treats non-finite or non-positive aspect as 1', () => {
+    const { camera, gc } = setup();
+    gc.refit(NaN);
+    expect(camera.position.length()).toBeCloseTo(fitDistance(1), 6);
+  });
+});
+
 describe('arrow keys', () => {
   it('never tilts past the minimum polar angle', () => {
     const { camera } = setup();

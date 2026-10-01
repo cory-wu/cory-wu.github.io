@@ -6,6 +6,12 @@ import { CAMERA, fitDistance } from './camera-fit';
 export interface GardenControls {
   controls: OrbitControls;
   resetView(aspect: number): void;
+  /**
+   * Re-frames after a viewport aspect change: moves to the new fit distance
+   * if the camera is closer than it or the user has not zoomed since the last
+   * fit; keeps azimuth and polar angle.
+   */
+  refit(aspect: number): void;
   update(): void;
   dispose(): void;
 }
@@ -18,6 +24,8 @@ export interface ControlsOptions {
 const DAMPING_FACTOR = 0.08;
 const AZIMUTH_STEP = MathUtils.degToRad(15);
 const POLAR_STEP = MathUtils.degToRad(8);
+/** Radius change below which the camera still counts as sitting at its last fit. */
+const FIT_TOLERANCE = 1e-3;
 
 const KEY_DELTAS: Readonly<Record<string, readonly [azimuth: number, polar: number]>> = {
   ArrowLeft: [AZIMUTH_STEP, 0],
@@ -52,16 +60,31 @@ export function createControls(
   controls.target.set(0, 0, 0);
   controls.addEventListener('change', opts.onChange);
 
+  let lastFit: number | null = null;
+
   function place(radius: number, polar: number, azimuth: number): void {
     const p = MathUtils.clamp(polar, CAMERA.minPolar, CAMERA.maxPolar);
-    camera.position.setFromSpherical(new Spherical(radius, p, azimuth)).add(controls.target);
+    const r = MathUtils.clamp(radius, CAMERA.minDistance, CAMERA.maxDistance);
+    camera.position.setFromSpherical(new Spherical(r, p, azimuth)).add(controls.target);
     camera.lookAt(controls.target);
     controls.update();
   }
 
+  const current = () => new Spherical().setFromVector3(new Vector3().subVectors(camera.position, controls.target));
+  const safeFit = (aspect: number) => fitDistance(Number.isFinite(aspect) && aspect > 0 ? aspect : 1);
+
   function resetView(aspect: number): void {
-    const safe = Number.isFinite(aspect) && aspect > 0 ? aspect : 1;
-    place(fitDistance(safe), CAMERA.polar, CAMERA.azimuth);
+    lastFit = safeFit(aspect);
+    place(lastFit, CAMERA.polar, CAMERA.azimuth);
+  }
+
+  function refit(aspect: number): void {
+    const fit = safeFit(aspect);
+    const s = current();
+    const untouched = lastFit !== null && Math.abs(s.radius - lastFit) < FIT_TOLERANCE;
+    if (!untouched && s.radius >= fit) return;
+    lastFit = fit;
+    place(fit, s.phi, s.theta);
   }
 
   function onKeyDown(event: KeyboardEvent): void {
@@ -70,7 +93,7 @@ export function createControls(
     if (event.shiftKey || event.ctrlKey || event.altKey || event.metaKey) return;
     if (isEditable(event.target)) return;
     event.preventDefault();
-    const s = new Spherical().setFromVector3(new Vector3().subVectors(camera.position, controls.target));
+    const s = current();
     place(s.radius, s.phi + delta[1], s.theta + delta[0]);
   }
   window.addEventListener('keydown', onKeyDown);
@@ -78,6 +101,7 @@ export function createControls(
   return {
     controls,
     resetView,
+    refit,
     update: () => {
       controls.update();
     },

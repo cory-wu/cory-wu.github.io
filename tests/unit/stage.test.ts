@@ -109,6 +109,22 @@ describe('resize', () => {
     expect(stage.camera.aspect).toBe(0.5);
     stage.dispose();
   });
+  it('reports each valid new aspect through onResize', () => {
+    const host = document.createElement('div');
+    const onResize = vi.fn();
+    const stage = createStage(host, {
+      renderer: stubRenderer() as unknown as WebGLRenderer,
+      onDemand: true,
+      onResize,
+    });
+    onResize.mockClear();
+    stage.resize(400, 800);
+    stage.resize(0, 800);
+    const ro = StubResizeObserver.instances[0]!;
+    ro.cb([{ contentRect: { width: 900, height: 300 } } as ResizeObserverEntry], ro as unknown as ResizeObserver);
+    expect(onResize.mock.calls).toEqual([[0.5], [3]]);
+    stage.dispose();
+  });
   it('follows the ResizeObserver on the host', () => {
     const { host, renderer, stage } = setup(true);
     const ro = StubResizeObserver.instances[0]!;
