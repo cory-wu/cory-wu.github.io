@@ -15,7 +15,7 @@ whole island framed on screens from wide desktops to tall phones.
 Use a `PerspectiveCamera` with a 30° vertical FOV, placed at an
 isometric-like default pose and driven by `OrbitControls` with the
 target fixed at the diorama centre, panning disabled, distance and polar
-angle clamped, and a "Reset view" button. On load and reset the distance
+angle clamped, and a "Reset View" button. On load and reset the distance
 is fitted to the viewport aspect so a sphere around the island fits both
 axes.
 
@@ -35,5 +35,8 @@ reads as near-isometric, while orbit and zoom keep real depth. The cost
 is that the camera sits far from the island, so the distance limits
 matter: the maximum distance was raised from 55 to 72 so that tall phones
 (aspect around 0.46) can fit the whole diorama without the fit being
-clamped. Arrow keys orbit when the canvas is focused, and damping is
-turned off under reduced motion.
+clamped. The fitted distance is re-applied when the viewport aspect
+changes (for example a phone rotating), unless the visitor has zoomed
+out further. Arrow keys orbit from anywhere on the page except form
+fields: the canvas is `aria-hidden` and never takes focus, so the
+handler listens on `window`. Damping is turned off under reduced motion.
