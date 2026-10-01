@@ -14,7 +14,9 @@ network request and a third party), on a site that is otherwise static.
 ## Decision
 
 Fix sunrise at 06:00 and sunset at 19:00 local time for everyone. The
-sun follows a fixed arc between them, the four keyframes interpolate
+sun follows a fixed arc between them, the key light's direction blends
+(normalized lerp) between the moon and the sun over 05:30–06:30 and
+18:30–19:30 so shadows never flip within a minute, the four keyframes interpolate
 (wrapping across midnight), the sky is recomputed once per minute, and
 `?time=HH:MM` forces a time for debugging and screenshots (invalid
 values are ignored).

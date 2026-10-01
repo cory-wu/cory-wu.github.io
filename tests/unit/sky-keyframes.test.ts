@@ -39,18 +39,50 @@ describe('sampleSky', () => {
   });
 });
 
+const angleDeg = (a: [number, number, number], b: [number, number, number]): number =>
+  (Math.acos(Math.min(1, a[0] * b[0] + a[1] * b[1] + a[2] * b[2])) * 180) / Math.PI;
+
+const sunArc = (minutes: number): [number, number, number] => {
+  const t = ((minutes - 360) / (1140 - 360)) * Math.PI;
+  const v = new Vector3(Math.cos(t), Math.sin(t), 0.45).normalize();
+  return [v.x, v.y, v.z];
+};
+
+const expectDir = (actual: [number, number, number], expected: [number, number, number]): void => {
+  actual.forEach((c, i) => expect(c).toBeCloseTo(expected[i], 9));
+};
+
 describe('sunDirection', () => {
-  it('is high at midday, on the horizon at 06:00, and the moon at night', () => {
+  it('is high at midday and the moon at night', () => {
     expect(sunDirection(750)[1]).toBeGreaterThan(0.8);
-    expect(Math.abs(sunDirection(360)[1])).toBeLessThan(1e-6);
-    const n = sunDirection(100);
-    expect(n[0]).toBeCloseTo(moon.x, 9);
-    expect(n[1]).toBeCloseTo(moon.y, 9);
-    expect(n[2]).toBeCloseTo(moon.z, 9);
+    expectDir(sunDirection(100), [moon.x, moon.y, moon.z]);
+  });
+
+  it('is the pure moon outside the twilight blends and the pure sun arc inside daylight', () => {
+    expectDir(sunDirection(330), [moon.x, moon.y, moon.z]);
+    expectDir(sunDirection(1170), [moon.x, moon.y, moon.z]);
+    expectDir(sunDirection(390), sunArc(390));
+    expectDir(sunDirection(1110), sunArc(1110));
+  });
+
+  it('is between the moon and the horizon sun at 06:00 and 19:00', () => {
+    for (const m of [360, 1140]) {
+      const [, y] = sunDirection(m);
+      expect(y).toBeGreaterThan(0);
+      expect(y).toBeLessThan(moon.y);
+    }
+  });
+
+  it('turns by less than 5 degrees per minute across 05:30-06:30 and 18:30-19:30', () => {
+    for (const [from, to] of [[330, 390], [1110, 1170]]) {
+      for (let m = from - 1; m < to + 1; m++) {
+        expect(angleDeg(sunDirection(m), sunDirection(m + 1)), `minute ${m}`).toBeLessThan(5);
+      }
+    }
   });
 
   it('returns unit vectors', () => {
-    for (let m = 0; m < 1440; m += 37) {
+    for (let m = 0; m < 1440; m += 7) {
       const [x, y, z] = sunDirection(m);
       expect(Math.abs(Math.hypot(x, y, z) - 1)).toBeLessThan(1e-6);
     }

@@ -97,16 +97,40 @@ export function sampleSky(minutes: number): SkyState {
 
 const SUNRISE_MINUTE = 360;
 const SUNSET_MINUTE = 1140;
+/** Half-width of the moon <-> sun direction blend centred on sunrise and sunset. */
+const TWILIGHT_HALF = 30;
 const MOON: [number, number, number] = normalize([-0.4, 0.8, 0.3]);
 
-function normalize([x, y, z]: [number, number, number]): [number, number, number] {
+type Vec3 = [number, number, number];
+
+function normalize([x, y, z]: Vec3): Vec3 {
   const len = Math.hypot(x, y, z);
   return [x / len, y / len, z / len];
 }
 
-export function sunDirection(minutes: number): [number, number, number] {
-  const m = normalizedMinutes(minutes);
-  if (m < SUNRISE_MINUTE || m > SUNSET_MINUTE) return [...MOON];
-  const t = ((m - SUNRISE_MINUTE) / (SUNSET_MINUTE - SUNRISE_MINUTE)) * Math.PI;
+/** Normalized lerp between two unit vectors. */
+function nlerp(a: Vec3, b: Vec3, t: number): Vec3 {
+  return normalize([lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]);
+}
+
+/** The sun's arc from the east horizon (06:00) over the top to the west horizon (19:00). */
+function sunArc(m: number): Vec3 {
+  const clamped = Math.min(SUNSET_MINUTE, Math.max(SUNRISE_MINUTE, m));
+  const t = ((clamped - SUNRISE_MINUTE) / (SUNSET_MINUTE - SUNRISE_MINUTE)) * Math.PI;
   return normalize([Math.cos(t), Math.sin(t), 0.45]);
+}
+
+/**
+ * Key light direction: the moon at night, the sun's arc by day, blended over
+ * the hour around sunrise and sunset so shadows never flip in a single minute.
+ */
+export function sunDirection(minutes: number): Vec3 {
+  const m = normalizedMinutes(minutes);
+  const dawnStart = SUNRISE_MINUTE - TWILIGHT_HALF;
+  const duskStart = SUNSET_MINUTE - TWILIGHT_HALF;
+  const span = 2 * TWILIGHT_HALF;
+  if (m <= dawnStart || m >= SUNSET_MINUTE + TWILIGHT_HALF) return [...MOON];
+  if (m < SUNRISE_MINUTE + TWILIGHT_HALF) return nlerp(MOON, sunArc(m), (m - dawnStart) / span);
+  if (m > duskStart) return nlerp(sunArc(m), MOON, (m - duskStart) / span);
+  return sunArc(m);
 }
