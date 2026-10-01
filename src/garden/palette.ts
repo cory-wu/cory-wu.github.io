@@ -13,6 +13,14 @@ export const PALETTE = {
   roof: '#b5533c',
   wood: '#7a4a2a',
   window: '#ffd27a',
+  fountainGlow: '#ffd9a0',
+  lanternGlow: '#ffcf7a',
+  terracotta: '#c8683f',
+  leaf: '#4f9a45',
+  canopy: '#5aa84a',
+  flowerPink: '#e98fb0',
+  flowerWhite: '#fbf4ea',
+  ironDark: '#3d3a36',
 } as const;
 
 export function flatMaterial(color: string): MeshStandardMaterial {

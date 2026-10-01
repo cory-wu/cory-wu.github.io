@@ -24,7 +24,7 @@ export function buildFountain(): Object3D {
 
   const basinH = 0.5;
   add('fountain', new CylinderGeometry(1.0, 1.05, basinH, SEGMENTS), basinH / 2);
-  add('fountain', new CylinderGeometry(0.85, 0.85, 0.02, SEGMENTS), basinH + 0.01, water, false);
+  add('fountain-water', new CylinderGeometry(0.85, 0.85, 0.02, SEGMENTS), basinH + 0.01, water, false);
   const pedestalH = 0.8;
   add('fountain', new CylinderGeometry(0.2, 0.26, pedestalH, SEGMENTS), pedestalH / 2);
   add('fountain', new CylinderGeometry(0.45, 0.22, 0.2, SEGMENTS), pedestalH + 0.1);
