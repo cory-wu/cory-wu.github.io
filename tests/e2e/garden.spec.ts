@@ -1,14 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type { Page } from '@playwright/test';
-
-function collectErrors(page: Page): string[] {
-  const errors: string[] = [];
-  page.on('console', (msg) => {
-    if (msg.type() === 'error') errors.push(`console.error: ${msg.text()}`);
-  });
-  page.on('pageerror', (err) => errors.push(`pageerror: ${err.message}`));
-  return errors;
-}
+import { collectErrors } from './helpers';
 
 test('loads the garden without console errors', async ({ page }) => {
   const errors = collectErrors(page);
@@ -39,6 +30,7 @@ test('nav link leads to the writing page', async ({ page }) => {
 test('losing the WebGL context shows the fallback image', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#garden')).toHaveClass(/is-ready/);
+  const errors = collectErrors(page);
   await page.evaluate(() => {
     const canvas = document.querySelector<HTMLCanvasElement>('#garden canvas');
     canvas?.getContext('webgl2')?.getExtension('WEBGL_lose_context')?.loseContext();
@@ -46,4 +38,12 @@ test('losing the WebGL context shows the fallback image', async ({ page }) => {
   await expect(page.locator('#fallback')).toBeVisible();
   await expect(page.locator('#garden')).toBeHidden();
   await expect(page.locator('#site-nav a[href="/writing/"]')).toBeVisible();
+
+  // Nothing torn down by the loss may still fire on input or resize.
+  await page.mouse.move(200, 200);
+  await page.mouse.move(400, 300, { steps: 5 });
+  await page.keyboard.press('ArrowLeft');
+  await page.setViewportSize({ width: 900, height: 700 });
+  await page.waitForTimeout(500);
+  expect(errors).toEqual([]);
 });

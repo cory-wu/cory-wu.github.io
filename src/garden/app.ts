@@ -1,4 +1,5 @@
-import type { WebGLRenderer } from 'three';
+import { Box3, Vector3 } from 'three';
+import type { Camera, Object3D, WebGLRenderer } from 'three';
 import { createAmbient } from './ambient';
 import { detectEnv, selectMode, showFallback } from './boot';
 import type { Mode } from './boot';
@@ -18,7 +19,34 @@ export interface GardenDeps {
   createRenderer?: () => WebGLRenderer;
 }
 
+/** E2E hook on `window.__garden`; exposed only in dev or with `?e2e` in the URL. */
+export interface GardenTestHook {
+  /** Viewport CSS-pixel position of the landmark's projected centre, or null if unknown. */
+  landmarkScreenPosition(id: string): { x: number; y: number } | null;
+}
+
+declare global {
+  interface Window {
+    __garden?: GardenTestHook;
+  }
+}
+
 type SceneMode = Exclude<Mode, 'fallback'>;
+
+function testHookEnabled(win: Window): boolean {
+  return import.meta.env.DEV || win.location.search.includes('e2e');
+}
+
+/** Viewport CSS-pixel position of the centre of `object`'s bounding box. */
+function projectCenter(object: Object3D, camera: Camera, canvas: HTMLElement): { x: number; y: number } {
+  camera.updateMatrixWorld();
+  const ndc = new Box3().setFromObject(object).getCenter(new Vector3()).project(camera);
+  const rect = canvas.getBoundingClientRect();
+  return {
+    x: rect.left + ((ndc.x + 1) / 2) * rect.width,
+    y: rect.top + ((1 - ndc.y) / 2) * rect.height,
+  };
+}
 
 const MINUTE_MS = 60_000;
 const READY_CLASS = 'is-ready';
@@ -84,6 +112,18 @@ async function mountScene(
     });
     cleanup.push(() => interaction.dispose());
     setInteraction(interaction);
+
+    if (testHookEnabled(win)) {
+      win.__garden = {
+        landmarkScreenPosition: (id) => {
+          const entry = landmarks.find((l) => l.placement.landmark.id === id);
+          return entry ? projectCenter(entry.build.object, stage.camera, canvas) : null;
+        },
+      };
+      cleanup.push(() => {
+        delete win.__garden;
+      });
+    }
 
     const override = parseTimeParam(win.location.search);
     let nightFactor = 0;

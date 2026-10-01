@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "capture:fallback": "playwright test --config playwright.capture.config.ts && cwebp -quiet -q 80 test-results/garden-fallback.png -o public/garden-fallback.webp"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
