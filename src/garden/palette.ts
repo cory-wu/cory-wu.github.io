@@ -21,6 +21,10 @@ export const PALETTE = {
   flowerPink: '#e98fb0',
   flowerWhite: '#fbf4ea',
   ironDark: '#3d3a36',
+  cloud: '#f7f9fc',
+  butterflyLemon: '#f6d55c',
+  butterflyRose: '#f2a0c0',
+  firefly: '#ffe27a',
 } as const;
 
 export function flatMaterial(color: string): MeshStandardMaterial {
