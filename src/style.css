@@ -21,12 +21,21 @@ body {
 
 a {
   color: var(--link);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
 }
 
 .page {
   max-width: 40rem;
   margin: 0 auto;
   padding: 3rem 1rem;
+}
+
+.page h1 {
+  text-wrap: balance;
 }
 
 [hidden] {
