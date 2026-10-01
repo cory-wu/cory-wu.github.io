@@ -6,13 +6,14 @@ describe('fitDistance', () => {
     expect(fitDistance(16 / 9)).toBe(CAMERA.baseDistance);
     expect(fitDistance(16 / 9)).toBe(34);
   });
-  it('pulls back on portrait screens, within the max', () => {
+  it('pulls back on tall phones without clamping', () => {
     const d = fitDistance(0.46);
     expect(d).toBeGreaterThan(34);
-    expect(d).toBeLessThanOrEqual(55);
+    expect(d).toBeLessThanOrEqual(72);
+    expect(Math.abs(d - 69.5)).toBeLessThan(0.5);
   });
   it('clamps to the max distance on very narrow screens', () => {
-    expect(fitDistance(0.1)).toBe(55);
+    expect(fitDistance(0.1)).toBe(72);
   });
   it('is non-increasing as aspect grows', () => {
     let prev = Infinity;

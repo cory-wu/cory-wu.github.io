@@ -4,7 +4,7 @@ export const CAMERA = {
   polar: 0.95,
   baseDistance: 34,
   minDistance: 14,
-  maxDistance: 55,
+  maxDistance: 72,
   minPolar: 0.2,
   maxPolar: 1.2,
   fitRadius: 8.5,
