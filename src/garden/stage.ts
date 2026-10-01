@@ -22,6 +22,8 @@ export interface StageOptions {
   onDemand: boolean;
   /** Test seam: clock in milliseconds. Defaults to performance.now. */
   now?: () => number;
+  /** Called once if a frame callback or render throws; the loop has already stopped. */
+  onError?: (err: unknown) => void;
 }
 
 const MAX_PIXEL_RATIO = 2;
@@ -47,6 +49,7 @@ export function createStage(host: HTMLElement, opts: StageOptions): Stage {
   let lastTime = now();
   let elapsed = 0;
   let disposed = false;
+  let failed = false;
 
   function renderFrame(): void {
     const t = now();
@@ -57,8 +60,15 @@ export function createStage(host: HTMLElement, opts: StageOptions): Stage {
     renderer.render(scene, camera);
   }
 
+  function fail(err: unknown): void {
+    failed = true;
+    stop();
+    if (opts.onError) opts.onError(err);
+    else throw err;
+  }
+
   function schedule(): void {
-    if (frameId !== null || disposed || document.hidden) return;
+    if (frameId !== null || disposed || failed || document.hidden) return;
     frameId = requestAnimationFrame(onAnimationFrame);
   }
 
@@ -67,7 +77,14 @@ export function createStage(host: HTMLElement, opts: StageOptions): Stage {
     if (disposed || document.hidden) return;
     const shouldRender = !opts.onDemand || renderPending;
     renderPending = false;
-    if (shouldRender) renderFrame();
+    if (shouldRender) {
+      try {
+        renderFrame();
+      } catch (err) {
+        fail(err);
+        return;
+      }
+    }
     if (!opts.onDemand && wantsRunning) schedule();
   }
 
@@ -89,7 +106,7 @@ export function createStage(host: HTMLElement, opts: StageOptions): Stage {
   }
 
   function start(): void {
-    if (wantsRunning || disposed) return;
+    if (wantsRunning || disposed || failed) return;
     wantsRunning = true;
     begin();
   }

@@ -33,8 +33,13 @@ declare global {
 
 type SceneMode = Exclude<Mode, 'fallback'>;
 
+/** True when the query string carries an `e2e` parameter (`?e2e`, `?e2e=1`, `?time=12:00&e2e`). */
+export function hasE2eFlag(search: string): boolean {
+  return new URLSearchParams(search).has('e2e');
+}
+
 function testHookEnabled(win: Window): boolean {
-  return import.meta.env.DEV || win.location.search.includes('e2e');
+  return import.meta.env.DEV || hasE2eFlag(win.location.search);
 }
 
 /** Viewport CSS-pixel position of the centre of `object`'s bounding box. */
@@ -73,11 +78,26 @@ async function mountScene(
   const resetButton = requireElement(doc, 'reset-view');
   const reduced = mode === 'reduced';
 
-  const stage = createStage(host, { onDemand: reduced, renderer: deps.createRenderer?.() });
-  const cleanup: Array<() => void> = [() => stage.stop()];
+  const stage = createStage(host, {
+    onDemand: reduced,
+    renderer: deps.createRenderer?.(),
+    // Frames only run after stage.start(), by which point failToFallback exists.
+    onError: (err) => {
+      console.error('garden: rendering failed, showing the static fallback', err);
+      failToFallback();
+    },
+  });
+  // Runs last: releases the renderer, ResizeObserver and visibility listener.
+  const cleanup: Array<() => void> = [() => stage.dispose()];
+  let mounted = true;
   const teardown = () => {
+    mounted = false;
     setInteraction(null);
     for (const fn of cleanup.splice(0).reverse()) fn();
+  };
+  const failToFallback = () => {
+    teardown();
+    showFallback(doc);
   };
 
   try {
@@ -111,6 +131,9 @@ async function mountScene(
       requestRender: stage.requestRender,
     });
     cleanup.push(() => interaction.dispose());
+    cleanup.push(() => {
+      label.hidden = true;
+    });
     setInteraction(interaction);
 
     if (testHookEnabled(win)) {
@@ -146,8 +169,10 @@ async function mountScene(
       interaction.updateLabel();
       if (firstFrame) {
         firstFrame = false;
-        // Runs after this frame's renderer.render() call returns.
-        queueMicrotask(() => host.classList.add(READY_CLASS));
+        // Runs after this frame's renderer.render() call returns; skipped if that render threw.
+        queueMicrotask(() => {
+          if (mounted) host.classList.add(READY_CLASS);
+        });
       }
     });
 
@@ -158,18 +183,13 @@ async function mountScene(
     resetButton.addEventListener('click', onReset);
     cleanup.push(() => resetButton.removeEventListener('click', onReset));
 
-    const onContextLost = () => {
-      teardown();
-      showFallback(doc);
-    };
-    canvas.addEventListener('webglcontextlost', onContextLost, { once: true });
-    cleanup.push(() => canvas.removeEventListener('webglcontextlost', onContextLost));
+    canvas.addEventListener('webglcontextlost', failToFallback, { once: true });
+    cleanup.push(() => canvas.removeEventListener('webglcontextlost', failToFallback));
 
     // The first render (on-demand or continuous) happens here, with every object in the scene.
     stage.start();
   } catch (err) {
     teardown();
-    stage.dispose();
     throw err;
   }
 }

@@ -39,13 +39,14 @@ function flushFrame(advance = 16): void {
   for (const f of pending) f(clock);
 }
 
-function setup(onDemand: boolean) {
+function setup(onDemand: boolean, onError?: (err: unknown) => void) {
   const host = document.createElement('div');
   const renderer = stubRenderer();
   const stage = createStage(host, {
     renderer: renderer as unknown as WebGLRenderer,
     onDemand,
     now: () => clock,
+    onError,
   });
   return { host, renderer, stage };
 }
@@ -215,5 +216,42 @@ describe('dispose', () => {
     setHidden(false);
     flushFrame();
     expect(renderer.render).not.toHaveBeenCalled();
+  });
+});
+
+describe('frame errors', () => {
+  it('stops the loop and reports when render throws', () => {
+    const onError = vi.fn();
+    const { renderer, stage } = setup(false, onError);
+    const boom = new Error('render failed');
+    renderer.render.mockImplementation(() => {
+      throw boom;
+    });
+    stage.start();
+    expect(() => flushFrame()).not.toThrow();
+    expect(onError).toHaveBeenCalledExactlyOnceWith(boom);
+    expect(frames.size).toBe(0);
+    stage.requestRender();
+    stage.start();
+    flushFrame();
+    expect(renderer.render).toHaveBeenCalledTimes(1);
+    expect(onError).toHaveBeenCalledTimes(1);
+    stage.dispose();
+  });
+  it('reports a throwing frame callback on the first frame without rendering', () => {
+    const onError = vi.fn();
+    const { renderer, stage } = setup(true, onError);
+    const boom = new Error('callback failed');
+    stage.onFrame(() => {
+      throw boom;
+    });
+    stage.start();
+    flushFrame();
+    expect(onError).toHaveBeenCalledExactlyOnceWith(boom);
+    expect(renderer.render).not.toHaveBeenCalled();
+    stage.requestRender();
+    flushFrame();
+    expect(onError).toHaveBeenCalledTimes(1);
+    stage.dispose();
   });
 });

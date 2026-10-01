@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import indexHtml from '../../index.html?raw';
-import { startGarden } from '../../src/garden/app';
+import type { WebGLRenderer } from 'three';
+import { hasE2eFlag, startGarden } from '../../src/garden/app';
 
 function mountIndexBody(): void {
   const parsed = new DOMParser().parseFromString(indexHtml, 'text/html');
@@ -67,5 +68,117 @@ describe('index markup', () => {
     expect(main?.querySelector('h1')?.textContent).toBe('Cory Wu');
     expect(main?.querySelector('.garden-description')).not.toBeNull();
     expect(document.getElementById('site-nav')).not.toBeNull();
+  });
+});
+
+type Frame = (t: number) => void;
+
+class StubResizeObserver {
+  static instances: StubResizeObserver[] = [];
+  disconnect = vi.fn();
+  observe = vi.fn();
+  unobserve = vi.fn();
+  cb: ResizeObserverCallback;
+  constructor(cb: ResizeObserverCallback) {
+    this.cb = cb;
+    StubResizeObserver.instances.push(this);
+  }
+}
+
+function stubRenderer() {
+  return {
+    setPixelRatio: vi.fn(),
+    setSize: vi.fn(),
+    render: vi.fn(),
+    shadowMap: {},
+    domElement: document.createElement('canvas'),
+    dispose: vi.fn(),
+  };
+}
+
+describe('startGarden with a (stub) WebGL renderer', () => {
+  let frames: Map<number, Frame>;
+
+  const flushFrame = () => {
+    const pending = [...frames.values()];
+    frames.clear();
+    for (const f of pending) f(performance.now());
+  };
+
+  beforeEach(() => {
+    frames = new Map();
+    let nextId = 1;
+    StubResizeObserver.instances = [];
+    vi.stubGlobal('ResizeObserver', StubResizeObserver);
+    vi.stubGlobal('requestAnimationFrame', (cb: Frame) => {
+      frames.set(nextId, cb);
+      return nextId++;
+    });
+    vi.stubGlobal('cancelAnimationFrame', (id: number) => frames.delete(id));
+    const realGetContext = HTMLCanvasElement.prototype.getContext;
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(function (
+      this: HTMLCanvasElement,
+      id: string,
+    ) {
+      return id.startsWith('webgl') ? ({} as never) : realGetContext.call(this, id as '2d');
+    } as never);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  async function start() {
+    const renderer = stubRenderer();
+    const result = await startGarden(window, { createRenderer: () => renderer as unknown as WebGLRenderer });
+    return { renderer, result };
+  }
+
+  it('shows the fallback when the first frame throws', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { renderer, result } = await start();
+    expect(result).toEqual({ mode: 'live' });
+    const boom = new Error('render failed');
+    renderer.render.mockImplementation(() => {
+      throw boom;
+    });
+    expect(() => flushFrame()).not.toThrow();
+    await Promise.resolve();
+
+    expect(error).toHaveBeenCalledWith(expect.any(String), boom);
+    expect(byId('fallback').hidden).toBe(false);
+    expect(byId('garden').hidden).toBe(true);
+    expect(byId('garden').classList.contains('is-ready')).toBe(false);
+    expect(renderer.dispose).toHaveBeenCalled();
+    expect(frames.size).toBe(0);
+    expect(navLinks()).toHaveLength(1);
+  });
+
+  it('on context loss hides the label, disposes the stage and shows the fallback', async () => {
+    const { renderer } = await start();
+    flushFrame();
+    byId('landmark-label').hidden = false;
+    renderer.domElement.dispatchEvent(new Event('webglcontextlost'));
+
+    expect(byId('landmark-label').hidden).toBe(true);
+    expect(byId('fallback').hidden).toBe(false);
+    expect(renderer.dispose).toHaveBeenCalled();
+    expect(StubResizeObserver.instances[0]!.disconnect).toHaveBeenCalled();
+    expect(byId('garden').querySelector('canvas')).toBeNull();
+    expect(frames.size).toBe(0);
+  });
+});
+
+describe('hasE2eFlag', () => {
+  it('accepts an e2e query parameter with or without a value', () => {
+    expect(hasE2eFlag('?e2e')).toBe(true);
+    expect(hasE2eFlag('?time=12:00&e2e')).toBe(true);
+    expect(hasE2eFlag('?e2e=1')).toBe(true);
+  });
+  it('ignores e2e appearing inside other names or values', () => {
+    expect(hasE2eFlag('')).toBe(false);
+    expect(hasE2eFlag('?note2e')).toBe(false);
+    expect(hasE2eFlag('?time=e2e')).toBe(false);
+    expect(hasE2eFlag('?e2etest=1')).toBe(false);
   });
 });

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { collectErrors } from './helpers';
+import { collectErrors, landmarkPosition, openGarden, SHED_ID } from './helpers';
 
 test('loads the garden without console errors', async ({ page }) => {
   const errors = collectErrors(page);
@@ -28,8 +28,10 @@ test('nav link leads to the writing page', async ({ page }) => {
 });
 
 test('losing the WebGL context shows the fallback image', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('#garden')).toHaveClass(/is-ready/);
+  await openGarden(page);
+  const shed = await landmarkPosition(page, SHED_ID);
+  await page.mouse.move(shed.x, shed.y);
+  await expect(page.locator('#landmark-label')).toBeVisible();
   const errors = collectErrors(page);
   await page.evaluate(() => {
     const canvas = document.querySelector<HTMLCanvasElement>('#garden canvas');
@@ -37,6 +39,7 @@ test('losing the WebGL context shows the fallback image', async ({ page }) => {
   });
   await expect(page.locator('#fallback')).toBeVisible();
   await expect(page.locator('#garden')).toBeHidden();
+  await expect(page.locator('#landmark-label')).toBeHidden();
   await expect(page.locator('#site-nav a[href="/writing/"]')).toBeVisible();
 
   // Nothing torn down by the loss may still fire on input or resize.
