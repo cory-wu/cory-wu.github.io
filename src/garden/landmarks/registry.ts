@@ -1,5 +1,5 @@
-import { libraryShed } from './library-shed';
-import type { LandmarkBuild, Placement } from './types';
+import { libraryShed } from './library-shed.ts';
+import type { LandmarkBuild, Placement } from './types.ts';
 
 const DIORAMA_HALF = 6;
 

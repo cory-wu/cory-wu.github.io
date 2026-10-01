@@ -115,13 +115,9 @@ describe('startGarden with a (stub) WebGL renderer', () => {
       return nextId++;
     });
     vi.stubGlobal('cancelAnimationFrame', (id: number) => frames.delete(id));
-    const realGetContext = HTMLCanvasElement.prototype.getContext;
-    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(function (
-      this: HTMLCanvasElement,
-      id: string,
-    ) {
-      return id.startsWith('webgl') ? ({} as never) : realGetContext.call(this, id as '2d');
-    } as never);
+    // WebGL "exists" for mode detection; no 2D context, as in jsdom (the sky falls back to a flat colour).
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockImplementation(((id: string) =>
+      id.startsWith('webgl') ? {} : null) as never);
   });
 
   afterEach(() => {

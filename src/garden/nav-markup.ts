@@ -1,4 +1,4 @@
-import type { Placement } from './landmarks/types';
+import type { Placement } from './landmarks/types.ts';
 
 /** The empty nav list in index.html that the build fills with landmark links. */
 const EMPTY_NAV_LIST = /(<ul id="site-nav-list">)\s*(<\/ul>)/;

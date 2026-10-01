@@ -1,7 +1,7 @@
 import { BoxGeometry, ExtrudeGeometry, Group, Mesh, Shape } from 'three';
 import type { BufferGeometry, MeshStandardMaterial } from 'three';
-import { flatMaterial, PALETTE } from '../palette';
-import type { Landmark, LandmarkBuild } from './types';
+import { flatMaterial, PALETTE } from '../palette.ts';
+import type { Landmark, LandmarkBuild } from './types.ts';
 
 const WALL = { w: 2.5, h: 1.8, d: 2.4 };
 const ROOF = { w: 2.8, d: 2.7, rise: 0.85 };
