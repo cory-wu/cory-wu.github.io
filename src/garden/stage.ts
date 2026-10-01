@@ -1,4 +1,4 @@
-import { PCFSoftShadowMap, PerspectiveCamera, Scene, SRGBColorSpace, WebGLRenderer } from 'three';
+import { PCFShadowMap, PerspectiveCamera, Scene, SRGBColorSpace, WebGLRenderer } from 'three';
 import { CAMERA } from './camera-fit';
 
 export type FrameCallback = (dt: number, elapsed: number) => void;
@@ -32,7 +32,7 @@ export function createStage(host: HTMLElement, opts: StageOptions): Stage {
   const renderer = opts.renderer ?? new WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO));
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = PCFSoftShadowMap;
+  renderer.shadowMap.type = PCFShadowMap;
   renderer.outputColorSpace = SRGBColorSpace;
   host.appendChild(renderer.domElement);
 

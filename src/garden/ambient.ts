@@ -73,6 +73,7 @@ function patchSway(material: MeshStandardMaterial, height: number, key: number):
       shader.vertexShader.replace('#include <begin_vertex>', SWAY_CHUNK);
   };
   material.customProgramCacheKey = () => `garden-sway-${key}`;
+  material.needsUpdate = true;
   return uniforms.uTime;
 }
 
@@ -200,12 +201,16 @@ function buildCritters(): { group: Group; update(t: number, nightFactor: number)
   const group = new Group();
   group.name = 'critters';
   group.add(butterflies.group, fireflies.points);
+  const showNight = (night: boolean) => {
+    butterflies.group.visible = !night;
+    fireflies.points.visible = night;
+  };
+  showNight(false);
   return {
     group,
     update: (t, nightFactor) => {
       const night = nightFactor >= NIGHT_THRESHOLD;
-      butterflies.group.visible = !night;
-      fireflies.points.visible = night;
+      showNight(night);
       if (night) fireflies.update(t);
       else butterflies.update(t);
     },

@@ -3,22 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="Cory Wu's personal site: a small walled garden of projects and writing." />
+    <meta name="theme-color" content="#f4f1e8" />
     <title>Cory Wu</title>
   </head>
   <body>
-    <header>
-      <h1>Cory Wu</h1>
-      <p class="garden-description">A small walled garden. Each landmark in it leads to something I've made.</p>
-    </header>
-    <nav id="site-nav" aria-label="Site">
-      <ul id="site-nav-list"></ul>
-    </nav>
-    <div id="garden" aria-hidden="true"></div>
-    <div id="landmark-label" role="presentation" hidden></div>
-    <button id="reset-view" type="button">Reset view</button>
-    <img id="fallback" hidden src="/garden-fallback.webp" alt="Illustration of a walled low-poly garden with a fountain, reflecting pool and library shed" />
+    <main>
+      <header class="garden-card">
+        <h1 translate="no">Cory Wu</h1>
+        <p class="garden-description">A small walled garden. Each landmark in it leads to something I’ve made.</p>
+        <nav id="site-nav" aria-label="Site">
+          <ul id="site-nav-list"></ul>
+        </nav>
+      </header>
+      <div id="garden" aria-hidden="true"></div>
+      <div id="landmark-label" role="presentation" hidden></div>
+      <button id="reset-view" type="button">Reset view</button>
+      <img id="fallback" hidden loading="lazy" src="/garden-fallback.webp" alt="Illustration of a walled low-poly garden with a fountain, reflecting pool and library shed" />
+    </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

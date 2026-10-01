@@ -145,6 +145,20 @@ describe('createAmbient with motion', () => {
     expect(fireflies.visible).toBe(true);
   });
 
+  it('starts in the day state before the first update', () => {
+    const { scene } = setup(false);
+    expect(byName(scene, 'butterflies').visible).toBe(true);
+    expect(byName(scene, 'fireflies').visible).toBe(false);
+  });
+
+  it('flags patched sway materials for recompilation', () => {
+    const scene = new Scene();
+    const diorama = buildDiorama();
+    const before = diorama.sway.map((m) => m.version);
+    createAmbient(scene, diorama, { reducedMotion: false });
+    diorama.sway.forEach((m, i) => expect(m.version).toBeGreaterThan(before[i]));
+  });
+
   it('flaps butterfly wings over time', () => {
     const { scene, ambient } = setup(false);
     const wing = byName(scene, 'butterflies').children[0].children[0];

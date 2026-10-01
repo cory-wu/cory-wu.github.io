@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { PCFShadowMap } from 'three';
 import type { WebGLRenderer } from 'three';
 import { createStage } from '../../src/garden/stage';
 
@@ -82,7 +83,7 @@ describe('stage setup', () => {
     const { host, renderer, stage } = setup(true);
     expect(host.contains(renderer.domElement)).toBe(true);
     expect(renderer.shadowMap.enabled).toBe(true);
-    expect(renderer.shadowMap.type).toBeDefined();
+    expect(renderer.shadowMap.type).toBe(PCFShadowMap);
     expect(renderer.setPixelRatio).toHaveBeenCalledWith(Math.min(window.devicePixelRatio, 2));
     stage.dispose();
   });
