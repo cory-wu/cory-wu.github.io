@@ -200,7 +200,7 @@ async function mountScene(
   }
 }
 
-/** Builds the nav, picks a mode, and mounts the scene or the static fallback. */
+/** Hydrates the nav, picks a mode, and mounts the scene or the static fallback. */
 export async function startGarden(win: Window, deps: GardenDeps = {}): Promise<{ mode: Mode }> {
   const doc = win.document;
   let interaction: Interaction | null = null;
