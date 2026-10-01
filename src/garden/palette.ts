@@ -2,6 +2,7 @@ import { MeshStandardMaterial } from 'three';
 
 export const PALETTE = {
   stone: '#e8d9b5',
+  stoneDark: '#b8a888',
   grass: '#6fae4a',
   soil: '#8a5a36',
   hedge: '#3f8a3f',
