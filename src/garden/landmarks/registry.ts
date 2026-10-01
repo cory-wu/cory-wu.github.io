@@ -29,7 +29,8 @@ export async function loadLandmarks(
   ps: Placement[],
   log: (msg: string, err: unknown) => void = console.error,
 ): Promise<Array<{ placement: Placement; build: LandmarkBuild }>> {
-  const results = await Promise.allSettled(ps.map((p) => p.landmark.build()));
+  // async wrapper: a build() that throws synchronously becomes a rejection too.
+  const results = await Promise.allSettled(ps.map(async (p) => p.landmark.build()));
   const loaded: Array<{ placement: Placement; build: LandmarkBuild }> = [];
   results.forEach((result, i) => {
     const placement = ps[i];

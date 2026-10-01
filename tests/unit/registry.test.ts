@@ -58,4 +58,18 @@ describe('loadLandmarks', () => {
     expect(object.position.z).toBe(-3);
     expect(object.rotation.y).toBe(0.5);
   });
+  it('treats a build that throws synchronously like a rejection', async () => {
+    const object = new Group();
+    const good = place(fake('good', '/g/', async () => ({ object })));
+    const sync = place(
+      fake('sync', '/s/', () => {
+        throw new Error('sync boom');
+      }),
+    );
+    const log = vi.fn();
+    const out = await loadLandmarks([sync, good], log);
+    expect(out.map((l) => l.placement)).toEqual([good]);
+    expect(log).toHaveBeenCalledTimes(1);
+    expect(log.mock.calls[0][0]).toContain('sync');
+  });
 });
