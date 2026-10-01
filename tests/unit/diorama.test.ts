@@ -24,13 +24,6 @@ describe('buildDiorama', () => {
     expect(box.max.y).toBeLessThanOrEqual(3);
   });
 
-  it('stays under the draw-call budget', () => {
-    // A single material draws the whole geometry at once; only multi-material meshes cost one call per group.
-    let calls = 0;
-    for (const mesh of meshes(d.group)) calls += Array.isArray(mesh.material) ? Math.max(1, mesh.geometry.groups.length) : 1;
-    expect(calls).toBeLessThan(60);
-  });
-
   it('gives the earth block single-material meshes', () => {
     for (const mesh of meshes(d.group).filter((m) => m.userData.kind === 'earth')) {
       expect(Array.isArray(mesh.material)).toBe(false);

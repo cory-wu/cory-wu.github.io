@@ -1,6 +1,7 @@
 import { BoxGeometry, Group, Mesh } from 'three';
-import type { Object3D } from 'three';
+import type { BufferGeometry, Object3D } from 'three';
 import { PALETTE, flatMaterial } from '../palette';
+import { mergedMesh, placed } from './parts';
 import { waterMaterial } from './water';
 
 const X: readonly [number, number] = [2.5, 5];
@@ -16,20 +17,23 @@ export function buildPool(): Object3D {
   const water = waterMaterial();
   group.userData.water = water;
 
-  const add = (xa: number, xb: number, za: number, zb: number): void => {
-    const mesh = new Mesh(new BoxGeometry(xb - xa, RIM_HEIGHT, zb - za), stone);
-    mesh.position.set((xa + xb) / 2, RIM_HEIGHT / 2, (za + zb) / 2);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    mesh.userData.kind = 'pool-rim';
-    group.add(mesh);
-  };
+  const side = (xa: number, xb: number, za: number, zb: number): BufferGeometry =>
+    placed(new BoxGeometry(xb - xa, RIM_HEIGHT, zb - za), (xa + xb) / 2, RIM_HEIGHT / 2, (za + zb) / 2);
   // Rim hugs the outside of the water extents, so it stays inside the pool area.
   const [x0, x1, z0, z1] = [X[0], X[1], Z[0], Z[1]];
-  add(x0, x1, z0, z0 + RIM); // back
-  add(x0, x1, z1 - RIM, z1); // front
-  add(x0, x0 + RIM, z0 + RIM, z1 - RIM); // left
-  add(x1 - RIM, x1, z0 + RIM, z1 - RIM); // right
+  const rim = mergedMesh(
+    [
+      side(x0, x1, z0, z0 + RIM), // back
+      side(x0, x1, z1 - RIM, z1), // front
+      side(x0, x0 + RIM, z0 + RIM, z1 - RIM), // left
+      side(x1 - RIM, x1, z0 + RIM, z1 - RIM), // right
+    ],
+    stone,
+    'pool-rim',
+  );
+  // A 20 cm kerb: its shadow on the water is a thin sliver, not worth a shadow-pass draw.
+  rim.castShadow = false;
+  group.add(rim);
 
   const surface = new Mesh(
     new BoxGeometry(x1 - x0 - 2 * RIM, WATER_THICKNESS, z1 - z0 - 2 * RIM),

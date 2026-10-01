@@ -29,7 +29,8 @@ export function buildCourtyard(): Object3D {
     }
   }
   pavers.instanceMatrix.needsUpdate = true;
-  pavers.castShadow = true;
+  // 8 cm pavers flush with the grass: their shadow is a sliver in the gaps, not worth a shadow-pass draw.
+  pavers.castShadow = false;
   pavers.receiveShadow = true;
   pavers.userData.kind = 'courtyard';
 
