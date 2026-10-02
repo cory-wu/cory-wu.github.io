@@ -26,6 +26,10 @@ export const PALETTE = {
   butterflyLemon: '#f6d55c',
   butterflyRose: '#f2a0c0',
   firefly: '#ffe27a',
+  koiOrange: '#ef7d32',
+  koiPale: '#f3e9dc',
+  koiGold: '#e8b33a',
+  lilyPad: '#5b9e4a',
 } as const;
 
 export function flatMaterial(color: string): MeshStandardMaterial {

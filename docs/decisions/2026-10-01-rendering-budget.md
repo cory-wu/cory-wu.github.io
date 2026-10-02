@@ -35,7 +35,10 @@ Two details of that budget were not obvious from the spec:
 - **Budget raised to 70 main-pass calls (2026-10-02).** Requested so the
   fountain spray (a jet mesh plus one instanced droplet batch, 2 calls,
   no shadow casting) and later water detail fit with headroom. After the
-  spray: 59 main-pass calls, 40 shadow-caster calls (unchanged).
+  spray: 59 main-pass calls; after the pool's koi, lily pads and lily
+  flowers (3 instanced batches, no shadow casting; the ripples are a
+  vertex patch on the existing surface): 62 main-pass calls, 40
+  shadow-caster calls (unchanged).
 - **Fog runs from 80 to 160** instead of 40 to 90, so the diorama is not
   washed out at the 72-unit phone distance; the fog then mostly tints
   the far sky rather than the island.

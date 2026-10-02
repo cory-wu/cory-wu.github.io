@@ -231,6 +231,7 @@ export function createAmbient(scene: Scene, diorama: Diorama, opts: { reducedMot
       for (const uTime of swayTimes) uTime.value = elapsed;
       shimmer(elapsed);
       diorama.fountainSpray.update(elapsed);
+      diorama.poolMotion.update(elapsed);
       clouds.update(elapsed);
       critters.update(elapsed, nightFactor);
     },

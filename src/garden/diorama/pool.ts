@@ -1,7 +1,8 @@
-import { BoxGeometry, Group, Mesh } from 'three';
+import { BoxGeometry, Group, Mesh, PlaneGeometry } from 'three';
 import type { BufferGeometry, Object3D } from 'three';
 import { PALETTE, flatMaterial } from '../palette';
 import { mergedMesh, placed } from './parts';
+import { patchRipples } from './pool-ripples';
 import { waterMaterial } from './water';
 
 const X: readonly [number, number] = [2.5, 5];
@@ -9,7 +10,14 @@ const Z: readonly [number, number] = [-5, 4];
 const RIM = 0.25;
 const RIM_HEIGHT = 0.2;
 const WATER_Y = 0.06;
-const WATER_THICKNESS = 0.02;
+const SURFACE_SEGMENTS = { x: 8, z: 32 } as const;
+
+/** Open water inside the rim, in diorama coordinates; the surface sits at y. */
+export const POOL_WATER = {
+  x: [X[0] + RIM, X[1] - RIM] as const,
+  z: [Z[0] + RIM, Z[1] - RIM] as const,
+  y: WATER_Y,
+} as const;
 
 export function buildPool(): Object3D {
   const group = new Group();
@@ -35,11 +43,16 @@ export function buildPool(): Object3D {
   rim.castShadow = false;
   group.add(rim);
 
+  // A subdivided grid so the ripple patch has vertices to move; the rim hides its edges.
+  const [wx0, wx1] = POOL_WATER.x;
+  const [wz0, wz1] = POOL_WATER.z;
   const surface = new Mesh(
-    new BoxGeometry(x1 - x0 - 2 * RIM, WATER_THICKNESS, z1 - z0 - 2 * RIM),
+    new PlaneGeometry(wx1 - wx0, wz1 - wz0, SURFACE_SEGMENTS.x, SURFACE_SEGMENTS.z).rotateX(-Math.PI / 2),
     water,
   );
-  surface.position.set((x0 + x1) / 2, WATER_Y - WATER_THICKNESS / 2, (z0 + z1) / 2);
+  surface.name = 'pool-surface';
+  surface.position.set((wx0 + wx1) / 2, WATER_Y, (wz0 + wz1) / 2);
+  patchRipples(water);
   surface.receiveShadow = true;
   surface.userData.kind = 'pool';
   group.add(surface);

@@ -7,6 +7,7 @@ import { buildFountainSpray } from './fountain-spray';
 import type { FountainSpray } from './fountain-spray';
 import { buildHedges } from './hedges';
 import { buildPool } from './pool';
+import { buildPoolLife } from './pool-life';
 import { buildCypresses } from './cypresses';
 import { buildLanterns } from './lanterns';
 import { buildLavender } from './lavender';
@@ -23,6 +24,8 @@ export interface Diorama {
   lanterns: MeshStandardMaterial[];
   fountainLight: PointLight;
   fountainSpray: FountainSpray;
+  /** Ripples, koi and lily pads; posed once at build so reduced motion still shows them. */
+  poolMotion: { update(t: number): void };
 }
 
 const LAYOUT_SEED = 0x6a7d3e;
@@ -47,12 +50,24 @@ export function buildDiorama(): Diorama {
   fountainSpray.group.position.set(FOUNTAIN_POSITION[0], 0, FOUNTAIN_POSITION[1]);
   group.add(fountainSpray.group);
 
+  const poolWater = pool.userData.water as MeshStandardMaterial;
+  const rippleTime = poolWater.userData.rippleTime as { value: number };
+  const poolLife = buildPoolLife();
+  group.add(poolLife.group);
+  const poolMotion = {
+    update: (t: number): void => {
+      rippleTime.value = t;
+      poolLife.update(t);
+    },
+  };
+
   return {
     group,
-    water: [fountain.userData.water as MeshStandardMaterial, pool.userData.water as MeshStandardMaterial],
+    water: [fountain.userData.water as MeshStandardMaterial, poolWater],
     sway: [cypresses.material, lavender.material],
     lanterns: [lanterns.glass],
     fountainLight,
     fountainSpray,
+    poolMotion,
   };
 }
