@@ -31,7 +31,11 @@ Two details of that budget were not obvious from the spec:
   the shadow-caster calls.
 - **Static same-material parts are merged** where it does not change
   the look (the soil slab with its roots, the four pool-rim kerbs).
-  Current numbers: 57 main-pass calls, 40 shadow-caster calls.
+  Numbers at launch: 57 main-pass calls, 40 shadow-caster calls.
+- **Budget raised to 70 main-pass calls (2026-10-02).** Requested so the
+  fountain spray (a jet mesh plus one instanced droplet batch, 2 calls,
+  no shadow casting) and later water detail fit with headroom. After the
+  spray: 59 main-pass calls, 40 shadow-caster calls (unchanged).
 - **Fog runs from 80 to 160** instead of 40 to 90, so the diorama is not
   washed out at the 72-unit phone distance; the fog then mostly tints
   the far sky rather than the island.
@@ -49,7 +53,8 @@ Two details of that budget were not obvious from the spec:
 
 ## Consequences
 
-Adding a landmark or an ambient effect now shows up in the budget test
-at once. If phones still struggle, the next lever is the remaining
+Adding an ambient effect or diorama detail now shows up in the budget
+test at once (landmarks only once the test builds every registry
+placement rather than the shed alone). If phones still struggle, the next lever is the remaining
 casters (the low front hedges could stop casting) or merging the hedges.
 At the default zoom there is less haze than the plan intended.

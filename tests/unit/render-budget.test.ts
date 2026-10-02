@@ -28,13 +28,14 @@ function drawables(root: Object3D): Array<Mesh | Points> {
 }
 
 const FLAT_KINDS = ['earth', 'courtyard', 'pool-rim', 'pool', 'fountain-water'];
+const MAX_MAIN_PASS_CALLS = 70;
 const MAX_SHADOW_CASTER_CALLS = 40;
 
 describe('render budget', () => {
-  it('keeps main-pass draw calls for diorama + shed + ambient under 60', async () => {
+  it('keeps main-pass draw calls for diorama + shed + ambient under 70', async () => {
     // Counts butterflies and fireflies together, though only one set is visible at a time.
     const calls = drawables(await liveScene()).reduce((sum, o) => sum + drawCalls(o), 0);
-    expect(calls).toBeLessThan(60);
+    expect(calls).toBeLessThan(MAX_MAIN_PASS_CALLS);
   });
 
   it('does not cast shadows from flat, low meshes', async () => {

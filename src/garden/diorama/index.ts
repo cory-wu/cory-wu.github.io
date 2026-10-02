@@ -3,6 +3,8 @@ import type { MeshStandardMaterial } from 'three';
 import { buildCourtyard } from './courtyard';
 import { buildEarth } from './earth';
 import { buildFountain, FOUNTAIN_POSITION } from './fountain';
+import { buildFountainSpray } from './fountain-spray';
+import type { FountainSpray } from './fountain-spray';
 import { buildHedges } from './hedges';
 import { buildPool } from './pool';
 import { buildCypresses } from './cypresses';
@@ -20,6 +22,7 @@ export interface Diorama {
   sway: MeshStandardMaterial[];
   lanterns: MeshStandardMaterial[];
   fountainLight: PointLight;
+  fountainSpray: FountainSpray;
 }
 
 const LAYOUT_SEED = 0x6a7d3e;
@@ -40,11 +43,16 @@ export function buildDiorama(): Diorama {
   fountainLight.position.set(FOUNTAIN_POSITION[0], FOUNTAIN_LIGHT.height, FOUNTAIN_POSITION[1]);
   group.add(fountainLight);
 
+  const fountainSpray = buildFountainSpray();
+  fountainSpray.group.position.set(FOUNTAIN_POSITION[0], 0, FOUNTAIN_POSITION[1]);
+  group.add(fountainSpray.group);
+
   return {
     group,
     water: [fountain.userData.water as MeshStandardMaterial, pool.userData.water as MeshStandardMaterial],
     sway: [cypresses.material, lavender.material],
     lanterns: [lanterns.glass],
     fountainLight,
+    fountainSpray,
   };
 }

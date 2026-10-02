@@ -8,6 +8,7 @@ export const PALETTE = {
   hedge: '#3f8a3f',
   cypress: '#2f6b3a',
   water: '#5aa9d6',
+  spray: '#cfeefa',
   lavender: '#9b7fd1',
   shedWall: '#f1e6cc',
   roof: '#b5533c',
