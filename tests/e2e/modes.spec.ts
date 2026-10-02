@@ -14,6 +14,23 @@ test.describe('reduced motion', () => {
     const second = await page.screenshot();
     expect(second).toEqual(first);
   });
+
+  test('keeps the loading tile still', async ({ page }) => {
+    // Hold the bundle so the loader stays on screen to inspect.
+    await page.route('**/assets/*.js', () => {});
+    await page.goto('/', { waitUntil: 'commit' });
+    const tile = page.locator('#loader .loader-tile');
+    await expect(tile).toBeVisible();
+    expect(await tile.evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
+  });
+});
+
+test('bobs the loading tile when motion is allowed', async ({ page }) => {
+  await page.route('**/assets/*.js', () => {});
+  await page.goto('/', { waitUntil: 'commit' });
+  const tile = page.locator('#loader .loader-tile');
+  await expect(tile).toBeVisible();
+  expect(await tile.evaluate((el) => getComputedStyle(el).animationName)).toBe('loader-bob');
 });
 
 test.describe('phone viewport', () => {

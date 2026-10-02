@@ -74,6 +74,46 @@ a:hover {
   opacity: 1;
 }
 
+/* Shown only when JS runs (html.js); fades out with the canvas's first frame or the fallback. */
+#loader {
+  display: none;
+  position: fixed;
+  inset: 0;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  pointer-events: none;
+  color: rgba(31, 42, 31, 0.6);
+  font-size: 0.875rem;
+  transition: opacity 300ms ease-out, visibility 0s linear 300ms;
+}
+
+.js #loader {
+  display: grid;
+}
+
+#garden.is-ready ~ #loader,
+.is-fallback #loader {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-tile {
+  width: 40px;
+  height: 40px;
+  animation: loader-bob 1.6s ease-in-out infinite;
+}
+
+@keyframes loader-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
 #garden canvas {
   display: block;
   width: 100%;
@@ -204,7 +244,12 @@ body.is-fallback #fallback {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #garden {
+  #garden,
+  #loader {
     transition: none;
+  }
+
+  .loader-tile {
+    animation: none;
   }
 }

@@ -8,6 +8,7 @@ test('without JavaScript the nav is in the HTML and its Writing link works', asy
   await expect(link).toHaveCount(1);
   await expect(link).toHaveText('Writing');
   await expect(link).toBeVisible();
+  await expect(page.locator('#loader')).toBeHidden();
   await link.click();
   await expect(page).toHaveURL(/\/writing\/$/);
   await expect(page.locator('h1')).toHaveText('Writing');

@@ -10,6 +10,7 @@ test('without WebGL the fallback image and a working nav are shown', async ({ pa
   await expect(fallback).toBeVisible();
   await expect(page.locator('#garden')).toBeHidden();
   await expect(page.locator('#garden canvas')).toHaveCount(0);
+  await expect(page.locator('#loader')).toBeHidden();
   const loaded = await fallback.evaluate((img: HTMLImageElement) =>
     img.decode().then(
       () => img.naturalWidth > 0,

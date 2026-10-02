@@ -50,3 +50,22 @@ test('losing the WebGL context shows the fallback image', async ({ page }) => {
   await page.waitForTimeout(500);
   expect(errors).toEqual([]);
 });
+
+test('shows the loader until the garden is ready, then hides it', async ({ page }) => {
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  // Hold the app bundle so the pre-JS moment can be observed.
+  await page.route('**/assets/*.js', async (route) => {
+    await gate;
+    await route.continue();
+  });
+  await page.goto('/?time=12:00', { waitUntil: 'commit' });
+  const loader = page.locator('#loader');
+  await expect(loader).toBeVisible();
+  await expect(loader).toHaveText('Planting the garden…');
+  release();
+  await expect(page.locator('#garden')).toHaveClass(/is-ready/);
+  await expect(loader).toBeHidden();
+});
