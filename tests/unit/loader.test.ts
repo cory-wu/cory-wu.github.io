@@ -32,3 +32,10 @@ describe('loading state markup', () => {
     expect(script?.textContent).toContain("classList.add('js')");
   });
 });
+
+describe('stylesheet loading', () => {
+  it('links the stylesheet from the HTML head so the loader is styled before any JS runs', () => {
+    const link = page().head.querySelector('link[rel="stylesheet"][href="/src/style.css"]');
+    expect(link).not.toBeNull();
+  });
+});
