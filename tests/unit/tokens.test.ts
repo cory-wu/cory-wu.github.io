@@ -116,9 +116,9 @@ describe('stylesheets', () => {
     expect(face('Inter Fallback')).toMatch(/src: local\('Arial'\);[\s\S]*size-adjust: 107\.5%/);
   });
 
-  it('bundles fonts, tokens, base, prose and shell in order in site.css', () => {
+  it('bundles fonts, tokens, base, prose, content and shell in order in site.css', () => {
     const imports = [...readStyle('site.css').matchAll(/@import\s+['"]\.\/([^'"]+)['"]/g)].map((m) => m[1]);
-    expect(imports).toEqual(['fonts.css', 'tokens.css', 'base.css', 'prose.css', 'shell.css']);
+    expect(imports).toEqual(['fonts.css', 'tokens.css', 'base.css', 'prose.css', 'content.css', 'shell.css']);
   });
 });
 
@@ -145,7 +145,7 @@ describe('readability rules', () => {
   }
   const rem = (v: string): number | null => (/^[\d.]+rem$/.test(v) ? parseFloat(v) : null);
 
-  for (const file of ['prose.css', 'shell.css']) {
+  for (const file of ['prose.css', 'content.css', 'shell.css']) {
     it(`${file}: Cormorant/heading font only at 1.5rem and up`, () => {
       for (const { selector, body } of blocks(readStyle(file))) {
         const f = family(body);
@@ -189,6 +189,34 @@ describe('style guide sample themes', () => {
     for (const { accent, paper } of THEMES) {
       expect(guide).toContain(`--accent: ${accent}`);
       expect(guide).toContain(`--paper: ${paper}`);
+    }
+  });
+});
+
+describe('content.css', () => {
+  const content = readStyle('content.css');
+  const contentTokens = parseTokens(content);
+  const types = ['note', 'tip', 'warning', 'danger', 'quote', 'example'];
+
+  it('only uses variables defined in tokens.css or content.css', () => {
+    for (const name of usedVars(content)) {
+      expect(tokens.has(name) || contentTokens.has(name), name).toBe(true);
+    }
+  });
+
+  it('defines a tint and rule for each callout type', () => {
+    for (const t of types) {
+      expect(contentTokens.has(`--callout-${t}-bg`), t).toBe(true);
+      expect(contentTokens.has(`--callout-${t}-rule`), t).toBe(true);
+    }
+  });
+
+  it('keeps --ink and --ink-soft at AA on every callout tint', () => {
+    for (const t of types) {
+      const bg = contentTokens.get(`--callout-${t}-bg`) ?? '';
+      for (const ink of ['--ink', '--ink-soft']) {
+        expect(meetsAA(token(ink), bg), `${ink} on ${t}`).toBe(true);
+      }
     }
   });
 });

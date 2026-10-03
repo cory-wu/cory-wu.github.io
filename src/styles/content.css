@@ -1,0 +1,186 @@
+/* Generated-article styles (markdown content engine). Applies inside <main class="prose">. */
+:root {
+  /* Callout tints (light) and their rules; --ink and --ink-soft pass AA on every tint. */
+  --callout-note-bg: #e4eaef;
+  --callout-note-rule: #4f6477;
+  --callout-tip-bg: #e5eee2;
+  --callout-tip-rule: #2f6b3a;
+  --callout-warning-bg: #f6ecd0;
+  --callout-warning-rule: #b8860b;
+  --callout-danger-bg: #f6dfdb;
+  --callout-danger-rule: #b3372b;
+  --callout-quote-bg: #e8ebe4;
+  --callout-quote-rule: #4a564a;
+  --callout-example-bg: #f6e6dc;
+  --callout-example-rule: #c8683f;
+}
+
+/* Article header */
+.article-header {
+  margin-top: var(--space-7);
+}
+
+.article-header h1 {
+  margin-top: 0;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin-top: var(--space-3);
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: var(--text-ui);
+}
+
+.tag {
+  padding: 0.1em 0.6em;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  color: var(--ink-soft);
+  font-size: var(--text-label);
+}
+
+.draft-badge {
+  padding: 0.1em 0.6em;
+  border-radius: 999px;
+  background: var(--accent-2);
+  color: var(--ink);
+  font-size: var(--text-label);
+  font-weight: 600;
+}
+
+/* Table of contents */
+.toc {
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--paper-raised);
+  font-family: var(--font-ui);
+  font-size: var(--text-ui);
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.toc ol ol {
+  margin-top: var(--space-2);
+  padding-left: var(--space-5);
+}
+
+/* Callouts */
+.callout {
+  --callout-bg: var(--callout-note-bg);
+  --callout-rule: var(--callout-note-rule);
+  padding: var(--space-3) var(--space-5);
+  border-left: 4px solid var(--callout-rule);
+  border-radius: 0 6px 6px 0;
+  background: var(--callout-bg);
+  color: var(--ink);
+}
+
+.callout-note { --callout-bg: var(--callout-note-bg); --callout-rule: var(--callout-note-rule); }
+.callout-tip { --callout-bg: var(--callout-tip-bg); --callout-rule: var(--callout-tip-rule); }
+.callout-warning { --callout-bg: var(--callout-warning-bg); --callout-rule: var(--callout-warning-rule); }
+.callout-danger { --callout-bg: var(--callout-danger-bg); --callout-rule: var(--callout-danger-rule); }
+.callout-quote { --callout-bg: var(--callout-quote-bg); --callout-rule: var(--callout-quote-rule); }
+.callout-example { --callout-bg: var(--callout-example-bg); --callout-rule: var(--callout-example-rule); }
+
+.callout > * + * {
+  margin-top: var(--space-3);
+}
+
+.callout-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-ui);
+  font-weight: 600;
+}
+
+summary.callout-title {
+  cursor: pointer;
+}
+
+/* Heading anchors: hidden until the heading is hovered or focused */
+.heading-anchor {
+  margin-left: var(--space-2);
+  color: var(--accent);
+  font-family: var(--font-ui);
+  font-size: 0.7em;
+  text-decoration: none;
+  opacity: 0;
+}
+
+:is(h2, h3, h4):is(:hover, :focus-within) > .heading-anchor,
+.heading-anchor:focus-visible {
+  opacity: 1;
+}
+
+/* Footnotes: smaller, after a rule */
+.footnotes {
+  margin-top: var(--space-7);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--rule);
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+.footnotes h2 {
+  margin-top: 0;
+  font-size: var(--text-h3);
+}
+
+.footnotes ol {
+  margin-bottom: 0;
+}
+
+/* Math and code */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Shiki writes an inline background on <pre>; inline styles need !important to lose. */
+.prose pre.shiki {
+  background: var(--paper-raised) !important;
+}
+
+/* Unresolved wikilinks (dev only) */
+body[data-dev] .wikilink-missing {
+  text-decoration: underline dashed;
+  text-underline-offset: 0.2em;
+}
+
+/* Writing index */
+.post-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-list li + li {
+  margin-top: var(--space-5);
+}
+
+.post-list a {
+  font-family: var(--heading-font);
+  font-size: var(--text-h3);
+  font-weight: 600;
+}
+
+.post-list time {
+  display: block;
+  color: var(--ink-soft);
+  font-family: var(--font-ui);
+  font-size: var(--text-ui);
+}
+
+.post-list p {
+  margin-top: var(--space-2);
+  color: var(--ink-soft);
+}
