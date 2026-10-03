@@ -1,40 +1,47 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="Cory Wu's personal site: a small walled garden of projects and writing." />
-    <meta name="theme-color" content="#f4f1e8" />
-    <title>Cory Wu</title>
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/node_modules/@fontsource/eb-garamond/files/eb-garamond-latin-400-normal.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2" />
-    <link rel="stylesheet" href="/src/styles/garden.css" />
-    <script>document.documentElement.classList.add('js')</script>
-  </head>
-  <body>
-    <main>
-      <header class="garden-card">
-        <h1 translate="no">Cory Wu</h1>
-        <p class="garden-description">A small walled garden. Each landmark in it leads to something I’ve made.</p>
-        <nav id="site-nav" aria-label="Site">
-          <ul id="site-nav-list"></ul>
-        </nav>
-      </header>
-      <div id="garden" aria-hidden="true"></div>
-      <div id="loader" role="status">
-        <svg class="loader-tile" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
-          <polygon points="20,4 36,13 20,22 4,13" fill="#6fae4a" />
-          <polygon points="4,13 20,22 20,36 4,27" fill="#8a5a36" />
-          <polygon points="20,22 36,13 36,27 20,36" fill="#6d4529" />
-        </svg>
-        <span class="loader-text">Planting the garden…</span>
-      </div>
-      <div id="landmark-label" aria-hidden="true" hidden></div>
-      <button id="reset-view" type="button">Reset View</button>
-      <img id="fallback" hidden loading="lazy" width="1600" height="1000" src="/garden-fallback.webp" alt="Illustration of a walled low-poly garden with a fountain, reflecting pool and library shed" />
-    </main>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Cory Wu's personal site: a small walled garden of projects and writing." />
+  <meta name="theme-color" content="#f4f1e8" />
+  <title>Cory Wu</title>
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="/node_modules/@fontsource/eb-garamond/files/eb-garamond-latin-400-normal.woff2" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="/node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="/node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2" />
+  <link rel="stylesheet" href="/src/styles/garden.css" />
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+
+<body>
+  <main>
+    <header class="garden-card">
+      <h1 translate="no">Cory Wu</h1>
+      <p class="garden-description">Welcome to my site! Click and drag to explore, and check out the garden!</p>
+      <nav id="site-nav" aria-label="Site">
+        <ul id="site-nav-list"></ul>
+      </nav>
+    </header>
+    <div id="garden" aria-hidden="true"></div>
+    <div id="loader" role="status">
+      <svg class="loader-tile" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
+        <polygon points="20,4 36,13 20,22 4,13" fill="#6fae4a" />
+        <polygon points="4,13 20,22 20,36 4,27" fill="#8a5a36" />
+        <polygon points="20,22 36,13 36,27 20,36" fill="#6d4529" />
+      </svg>
+      <span class="loader-text">Planting the garden…</span>
+    </div>
+    <div id="landmark-label" aria-hidden="true" hidden></div>
+    <button id="reset-view" type="button">Reset View</button>
+    <img id="fallback" hidden loading="lazy" width="1600" height="1000" src="/garden-fallback.webp"
+      alt="Illustration of a walled low-poly garden with a fountain, reflecting pool and library shed" />
+  </main>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
