@@ -29,3 +29,7 @@ dist-ssr
 # Playwright artifacts
 test-results/
 playwright-report/
+
+# Obsidian per-machine state inside the vault
+src/content/.obsidian/workspace*.json
+src/content/.trash/

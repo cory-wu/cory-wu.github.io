@@ -110,8 +110,18 @@ function serveContent(server: ViteDevServer, contentDir: string): void {
 
   server.watcher.add(contentDir);
   server.watcher.on('all', (_event, file) => {
-    if (file.startsWith(contentDir + sep)) server.ws.send({ type: 'full-reload' });
+    if (shouldReload(file, contentDir)) server.ws.send({ type: 'full-reload' });
   });
+}
+
+/** Whether a changed path should reload the dev page: notes in writing/, files in attachments/, no dot-segments. */
+export function shouldReload(file: string, contentDir: string): boolean {
+  const rel = toPosix(relative(contentDir, file));
+  if (rel === '' || rel.startsWith('..') || isAbsolute(rel)) return false;
+  const parts = rel.split('/');
+  if (parts.some((part) => part.startsWith('.'))) return false;
+  if (parts.length === 2 && parts[0] === 'writing') return parts[1].endsWith('.md');
+  return parts.length >= 2 && parts[0] === 'attachments';
 }
 
 type Input = string | string[] | Record<string, string> | undefined;
@@ -164,7 +174,9 @@ export function contentEngine(opts: { contentDir?: string } = {}): Plugin {
       root = resolve(config.root ?? process.cwd());
       contentDir = resolve(root, opts.contentDir ?? DEFAULT_CONTENT_DIR);
       if (env.command !== 'build') return;
-      built = loadContent(contentDir, { includeDrafts: false, warn });
+      // Load drafts too so wikilinks to them get the precise "is a draft" warning; they are
+      // never published (pageIdsFor, the index and renderPage all filter them out).
+      built = loadContent(contentDir, { includeDrafts: true, warn });
       const ids = pageIdsFor(built.notes);
       pageIds = new Set(ids);
       const key = config.build?.rolldownOptions ? 'rolldownOptions' : 'rollupOptions';

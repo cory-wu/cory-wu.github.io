@@ -5,7 +5,7 @@ import { join, resolve } from 'node:path';
 import type { UserConfig } from 'vite';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ContentError } from '../../src/content-engine/errors.ts';
-import { contentEngine, loadContent, pageIdsFor, renderPage } from '../../src/content-engine/plugin.ts';
+import { contentEngine, loadContent, pageIdsFor, renderPage, shouldReload } from '../../src/content-engine/plugin.ts';
 import { buildLinkIndex } from '../../src/content-engine/plugins/wikilinks.ts';
 import { loadVault } from '../../src/content-engine/vault.ts';
 
@@ -139,5 +139,40 @@ describe('contentEngine config hook', () => {
 
   it('adds nothing when serving', () => {
     expect(configHook(VAULT)({}, { command: 'serve', mode: 'development' })).toBeUndefined();
+  });
+});
+
+describe('shouldReload', () => {
+  const dir = resolve(process.cwd(), VAULT);
+  it('reloads for notes directly in writing/ and files in attachments/', () => {
+    expect(shouldReload(resolve(dir, 'writing/a.md'), dir)).toBe(true);
+    expect(shouldReload(resolve(dir, 'attachments/p.png'), dir)).toBe(true);
+  });
+  it('ignores dot-segments, nested folders, non-markdown and outside paths', () => {
+    expect(shouldReload(resolve(dir, '.obsidian/workspace.json'), dir)).toBe(false);
+    expect(shouldReload(resolve(dir, 'writing/.trash/a.md'), dir)).toBe(false);
+    expect(shouldReload(resolve(dir, 'attachments/.DS_Store'), dir)).toBe(false);
+    expect(shouldReload(resolve(dir, 'writing/sub/a.md'), dir)).toBe(false);
+    expect(shouldReload(resolve(dir, 'writing/a.txt'), dir)).toBe(false);
+    expect(shouldReload(resolve(dir, 'other/a.md'), dir)).toBe(false);
+    expect(shouldReload(resolve(dir, '../elsewhere/writing/a.md'), dir)).toBe(false);
+  });
+});
+
+describe('contentEngine build mode with drafts', () => {
+  it('links to drafts with "is a draft" warnings, without publishing them', async () => {
+    const warnings: string[] = [];
+    const plugin = contentEngine({ contentDir: VAULT });
+    const config = plugin.config as unknown as (c: UserConfig, e: { command: string; mode: string }) => UserConfig;
+    const out = config({}, { command: 'build', mode: 'production' });
+    (plugin.configResolved as unknown as (c: unknown) => void)({ logger: { warn: (m: string) => warnings.push(m) } });
+    const load = plugin.load as unknown as (id: string) => Promise<string | null>;
+    const alpha = await load('writing/alpha/index.html');
+    expect(alpha).toContain('<span class="wikilink-missing">Beta Note</span>');
+    expect(warnings.some((w) => w.includes('"Beta Note" is a draft'))).toBe(true);
+    expect(warnings.some((w) => w.includes('was not found'))).toBe(false);
+    expect(JSON.stringify(out.build?.rollupOptions?.input)).not.toContain('beta-note');
+    expect(await load('writing/beta-note/index.html')).toBeNull();
+    expect(await load('writing/index.html')).not.toContain('beta-note');
   });
 });
