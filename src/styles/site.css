@@ -1,0 +1,6 @@
+/* Entry stylesheet for every text page (not the garden). */
+@import './fonts.css';
+@import './tokens.css';
+@import './base.css';
+@import './prose.css';
+@import './shell.css';

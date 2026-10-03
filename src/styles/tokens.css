@@ -1,0 +1,38 @@
+/* Garden-journal design tokens. Pages may override only --accent, --paper and --heading-font. */
+:root {
+  color-scheme: light;
+
+  /* Colour */
+  --paper: #f4f1e8;
+  --paper-raised: #fbf8f0;
+  --ink: #1f2a1f;
+  --ink-soft: #4a564a;
+  --ink-muted: #677067; /* spec said #6b746b, which is 4.29:1 on --paper; nearest AA pass */
+  --rule: rgba(31, 42, 31, 0.14);
+  --accent: #2f6b3a;
+  --accent-2: #c8683f;
+
+  /* Type */
+  --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --font-text: 'EB Garamond', Georgia, serif;
+  --font-ui: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --heading-font: var(--font-display);
+  --text-body: 1.25rem;
+  --text-h1: clamp(2.4rem, 5vw, 3.2rem);
+  --text-h2: 2rem;
+  --text-h3: 1.5rem;
+  --text-ui: 0.875rem;
+  --text-label: 0.8125rem;
+  --measure: 34em;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+}

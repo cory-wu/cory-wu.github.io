@@ -68,7 +68,7 @@ Out of scope (later sub-projects):
 | `--paper-raised` | `#fbf8f0` | cards, code blocks |
 | `--ink` | `#1f2a1f` | body text |
 | `--ink-soft` | `#4a564a` | dek (standfirst), captions |
-| `--ink-muted` | `#6b746b` | dates, meta |
+| `--ink-muted` | `#677067` | dates, meta (was `#6b746b`, which fails AA on `--paper` at 4.29:1) |
 | `--rule` | `rgba(31, 42, 31, 0.14)` | hairlines, borders |
 | `--accent` | `#2f6b3a` | links, focus rings, small details (themeable) |
 | `--accent-2` | `#c8683f` | blockquote bars, highlights |
