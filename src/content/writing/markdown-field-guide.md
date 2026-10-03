@@ -3,6 +3,7 @@ title: "A field guide to this site's markdown"
 date: 2026-10-02
 description: "Every markdown feature this site renders, in one place: math, code, tables, links, images and callouts."
 tags: [meta]
+draft: true
 ---
 
 Notes here are written in Obsidian and published as they are. This page is the reference: each section shows one family of features, rendered exactly as an essay would render it.
