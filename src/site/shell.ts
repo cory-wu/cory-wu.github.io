@@ -5,6 +5,7 @@
 export type Section = 'garden' | 'writing';
 
 export interface ShellParts {
+  head: string;
   header: string;
   footer: string;
 }
@@ -32,7 +33,7 @@ function block(snippet: string, name: string): string {
 }
 
 export function splitShell(snippet: string): ShellParts {
-  return { header: block(snippet, 'header'), footer: block(snippet, 'footer') };
+  return { head: block(snippet, 'head'), header: block(snippet, 'header'), footer: block(snippet, 'footer') };
 }
 
 export function injectShell(html: string, opts: InjectOptions): string {
@@ -45,6 +46,7 @@ export function injectShell(html: string, opts: InjectOptions): string {
   const footer = opts.footer.replace('{{year}}', String(opts.year));
 
   return html
+    .replace(/<\/head>/, () => `${opts.head}\n</head>`)
     .replace(/<body\b[^>]*>/, (open) => `${open}\n${header}\n`)
     .replace(/<\/body>/, `${footer}\n</body>`);
 }

@@ -61,7 +61,14 @@ colour and layout.
   `<main id="content" class="prose site-column" tabindex="-1">`.
 - The content pipeline must validate per-page themes with `meetsAA` and
   map `headingFont: display | text | ui` to the three font variables.
-- The EB Garamond preload on text pages works because Vite rewrites the
-  `node_modules` href to the same hashed file the CSS references.
+- Every page (garden included) preloads the three fonts it paints first —
+  EB Garamond 400, Cormorant Garamond 600, Inter 500 (~71 KB) — so they are
+  requested with the HTML instead of after the CSS parses. The preloads work
+  because Vite rewrites the `node_modules` hrefs to the same hashed files the
+  CSS references; text pages get them from the shell's head block.
+- Each web font has a size-matched local fallback (`size-adjust` on Georgia
+  or Arial: EB Garamond 86.3%, Cormorant 88.7%, Inter 107.5%, measured from
+  rendered text widths), so if a font still arrives after first paint the
+  swap barely reflows text (within ~2% instead of ~18–30%).
 - A dev-only style guide at `/styleguide/` shows every element and the
   theme samples; it is not part of the production build.

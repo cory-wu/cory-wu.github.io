@@ -4,10 +4,10 @@ import { describe, expect, it } from 'vitest';
 import { injectShell, sectionFromPath, splitShell } from '../../src/site/shell';
 
 const snippet = readFileSync(resolve(process.cwd(), 'src/site/shell.html'), 'utf8');
-const { header, footer } = splitShell(snippet);
+const { head, header, footer } = splitShell(snippet);
 const page = '<!doctype html><html><head></head><body><main id="content" class="prose"><h1>Hi</h1></main></body></html>';
 const shelled = (section: 'garden' | 'writing' | null = 'writing', html = page): Document =>
-  new DOMParser().parseFromString(injectShell(html, { header, footer, section, year: 2026 }), 'text/html');
+  new DOMParser().parseFromString(injectShell(html, { head, header, footer, section, year: 2026 }), 'text/html');
 
 describe('sectionFromPath', () => {
   it('maps every writing path to the writing section', () => {
@@ -33,6 +33,7 @@ describe('splitShell', () => {
   it('throws when a block is missing', () => {
     expect(() => splitShell(snippet.replace('<!-- shell:footer -->', ''))).toThrow(/footer/);
     expect(() => splitShell(snippet.replace('<!-- /shell:header -->', ''))).toThrow(/header/);
+    expect(() => splitShell(snippet.replace('<!-- shell:head -->', ''))).toThrow(/head/);
   });
 });
 
@@ -54,6 +55,19 @@ describe('injectShell', () => {
     expect(shelled(null).querySelectorAll('[aria-current]')).toHaveLength(0);
   });
 
+  it('preloads the three first-paint fonts in <head>', () => {
+    const hrefs = [...shelled().head.querySelectorAll('link[rel="preload"][as="font"]')].map((l) => l.getAttribute('href'));
+    expect(hrefs).toEqual([
+      '/node_modules/@fontsource/eb-garamond/files/eb-garamond-latin-400-normal.woff2',
+      '/node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2',
+      '/node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2',
+    ]);
+    for (const l of shelled().head.querySelectorAll('link[rel="preload"]')) {
+      expect(l.getAttribute('type')).toBe('font/woff2');
+      expect(l.hasAttribute('crossorigin')).toBe(true);
+    }
+  });
+
   it('fills in the year', () => {
     const text = shelled().querySelector('.site-footer')?.textContent ?? '';
     expect(text).toContain('© 2026');
@@ -61,8 +75,8 @@ describe('injectShell', () => {
   });
 
   it('is idempotent', () => {
-    const once = injectShell(page, { header, footer, section: 'writing', year: 2026 });
-    expect(injectShell(once, { header, footer, section: 'writing', year: 2026 })).toBe(once);
+    const once = injectShell(page, { head, header, footer, section: 'writing', year: 2026 });
+    expect(injectShell(once, { head, header, footer, section: 'writing', year: 2026 })).toBe(once);
   });
 
   it('keeps attributes on <body>', () => {
@@ -72,7 +86,7 @@ describe('injectShell', () => {
   });
 
   it('refuses a page without <main id="content">', () => {
-    expect(() => injectShell('<html><body><main></main></body></html>', { header, footer, section: null, year: 2026 })).toThrow(
+    expect(() => injectShell('<html><body><main></main></body></html>', { head, header, footer, section: null, year: 2026 })).toThrow(
       /main id="content"/,
     );
   });

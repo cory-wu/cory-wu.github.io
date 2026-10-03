@@ -13,9 +13,9 @@
   --accent-2: #c8683f;
 
   /* Type */
-  --font-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
-  --font-text: 'EB Garamond', Georgia, serif;
-  --font-ui: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Cormorant Garamond', 'Cormorant Garamond Fallback', 'EB Garamond', Georgia, serif;
+  --font-text: 'EB Garamond', 'EB Garamond Fallback', Georgia, serif;
+  --font-ui: Inter, 'Inter Fallback', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --heading-font: var(--font-display);
   --text-body: 1.25rem;

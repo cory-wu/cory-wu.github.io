@@ -5,3 +5,26 @@
 @import '@fontsource/eb-garamond/latin-400-italic.css';
 @import '@fontsource/eb-garamond/latin-600.css';
 @import '@fontsource/inter/latin-500.css';
+
+/*
+ * Size-matched local fallbacks: until the web fonts arrive (or if they fail), text renders in
+ * Georgia/Arial scaled to the web font's width, so the swap barely reflows. Ratios measured from
+ * the average advance width of a pangram at 40px.
+ */
+@font-face {
+  font-family: 'EB Garamond Fallback';
+  src: local('Georgia');
+  size-adjust: 86.3%;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond Fallback';
+  src: local('Georgia');
+  size-adjust: 88.7%; /* vs regular Georgia: local() loads regular and synthesizes the 600 */
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107.5%;
+}

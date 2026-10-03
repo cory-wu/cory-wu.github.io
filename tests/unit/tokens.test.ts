@@ -55,9 +55,9 @@ describe('colour tokens', () => {
 
 describe('type and spacing tokens', () => {
   it('define the font stacks, scale and measure', () => {
-    expect(token('--font-display')).toBe("'Cormorant Garamond', 'EB Garamond', Georgia, serif");
-    expect(token('--font-text')).toBe("'EB Garamond', Georgia, serif");
-    expect(token('--font-ui')).toBe("Inter, system-ui, -apple-system, 'Segoe UI', sans-serif");
+    expect(token('--font-display')).toBe("'Cormorant Garamond', 'Cormorant Garamond Fallback', 'EB Garamond', Georgia, serif");
+    expect(token('--font-text')).toBe("'EB Garamond', 'EB Garamond Fallback', Georgia, serif");
+    expect(token('--font-ui')).toBe("Inter, 'Inter Fallback', system-ui, -apple-system, 'Segoe UI', sans-serif");
     expect(token('--font-mono')).toBe('ui-monospace, SFMono-Regular, Menlo, Consolas, monospace');
     expect(token('--heading-font')).toBe('var(--font-display)');
     expect(token('--text-body')).toBe('1.25rem');
@@ -105,6 +105,15 @@ describe('stylesheets', () => {
       '@fontsource/eb-garamond/latin-600.css',
       '@fontsource/inter/latin-500.css',
     ]);
+  });
+
+  it('declares size-matched local fallbacks so the font swap barely reflows text', () => {
+    const fonts = readStyle('fonts.css');
+    const faces = [...fonts.matchAll(/@font-face\s*\{([^}]*)\}/g)].map((m) => m[1]);
+    const face = (family: string) => faces.find((f) => f.includes(`font-family: '${family}'`)) ?? '';
+    expect(face('EB Garamond Fallback')).toMatch(/src: local\('Georgia'\);[\s\S]*size-adjust: 86\.3%/);
+    expect(face('Cormorant Garamond Fallback')).toMatch(/src: local\('Georgia'\);[\s\S]*size-adjust: 88\.7%/);
+    expect(face('Inter Fallback')).toMatch(/src: local\('Arial'\);[\s\S]*size-adjust: 107\.5%/);
   });
 
   it('bundles fonts, tokens, base, prose and shell in order in site.css', () => {
