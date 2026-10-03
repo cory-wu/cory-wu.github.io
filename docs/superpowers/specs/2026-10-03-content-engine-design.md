@@ -131,7 +131,8 @@ and their entries removed from `build.rollupOptions.input`.
 - **Callouts** (`plugins/callouts.ts`): a blockquote whose first line is
   `[!type]`, `[!type]-` or `[!type]+` with an optional title. Types: `note`,
   `tip`, `warning`, `danger`, `quote`, `example`; unknown types render as
-  `note` and warn. Output: `<aside class="callout callout-<type>">` with a
+  `note` and warn. Output: `<div role="note" class="callout callout-<type>">` (not `aside`, so callouts
+  do not become page landmarks) with a
   `<p class="callout-title">` (title or the capitalised type); foldable
   forms render as `<details class="callout callout-<type>">` with
   `<summary class="callout-title">`, `open` for `+`.

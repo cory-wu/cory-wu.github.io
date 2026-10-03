@@ -58,6 +58,13 @@ pages, no client JavaScript.
   with math. KaTeX fonts add weight to those pages.
 - Callouts render as `div role="note"` (not `aside`) so they do not become
   page landmarks; foldable ones are `details`.
-- Known deferred minor issues are tracked in the plan's progress notes
-  (for example: dev warnings are not deduplicated and the watcher reloads on
-  any change under `src/content`).
+- Raw HTML in notes is passed through by design: the vault has a single
+  author, and an inline `<script>` there would break the no-JS rule, so it is
+  the author's responsibility not to write one.
+- Known open items (deferred, minor):
+  - wikilinks containing inline markdown (for example `[[*note*]]`) fail
+    silently;
+  - `#` or `?` in attachment file names break the generated image URL;
+  - the dev error state is cleared by 404s and broadcast to all open tabs;
+  - the R2 warning shows an absolute path;
+  - heading anchors are invisible on touch devices (they appear on hover).
