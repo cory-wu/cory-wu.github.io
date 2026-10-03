@@ -219,4 +219,14 @@ describe('content.css', () => {
       }
     }
   });
+
+  it('keeps the draft badge text at AA on its own background', () => {
+    const rule = /\.draft-badge\s*\{([^}]*)\}/.exec(withoutComments(content))?.[1] ?? '';
+    const prop = (name: string): string => {
+      const m = new RegExp(`(?:^|[;\\s])${name}\\s*:\\s*var\\((--[\\w-]+)\\)`).exec(rule);
+      if (!m) throw new Error(`.draft-badge sets no ${name} token`);
+      return token(m[1]);
+    };
+    expect(meetsAA(prop('color'), prop('background'))).toBe(true);
+  });
 });

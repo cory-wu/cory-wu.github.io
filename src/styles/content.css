@@ -45,8 +45,9 @@
 
 .draft-badge {
   padding: 0.1em 0.6em;
+  border: 1px solid var(--accent-2);
   border-radius: 999px;
-  background: var(--accent-2);
+  background: var(--paper-raised);
   color: var(--ink);
   font-size: var(--text-label);
   font-weight: 600;
