@@ -12,7 +12,7 @@
   font-weight: 500;
 }
 
-.skip-link:focus {
+.skip-link:focus-visible {
   left: var(--space-4);
 }
 
@@ -20,12 +20,12 @@
 .site-footer {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-3) var(--space-5);
   max-width: calc(var(--measure) + 8rem);
   margin-inline: auto;
-  padding: var(--space-4) max(16px, env(safe-area-inset-right)) var(--space-4) max(16px, env(safe-area-inset-left));
+  padding: var(--space-2) max(16px, env(safe-area-inset-right)) var(--space-2) max(16px, env(safe-area-inset-left));
 }
 
 .site-bar {
@@ -41,7 +41,14 @@
 .site-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: 0 var(--space-4);
+}
+
+.site-nav a,
+.site-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 
 .site-nav a {
@@ -63,7 +70,8 @@
   padding: 0 max(16px, env(safe-area-inset-right)) var(--space-8) max(16px, env(safe-area-inset-left));
 }
 
-.site-column:focus {
+/* The skip link focuses <main> programmatically; keep the ring for keyboard focus only. */
+.site-column:focus:not(:focus-visible) {
   outline: none;
 }
 

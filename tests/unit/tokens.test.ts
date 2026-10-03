@@ -158,3 +158,28 @@ describe('readability rules', () => {
     });
   }
 });
+
+describe('style guide sample themes', () => {
+  // These are the two non-default themes shown in styleguide/index.html.
+  const THEMES = [
+    { accent: '#9a4a2a', paper: '#f8f1e6' },
+    { accent: '#3d5a73', paper: '#eef1f2' },
+  ];
+
+  it('keep their accent and every ink at AA on their paper', () => {
+    for (const { accent, paper } of THEMES) {
+      expect(meetsAA(accent, paper), `${accent} on ${paper}`).toBe(true);
+      for (const ink of ['--ink', '--ink-soft', '--ink-muted']) {
+        expect(meetsAA(token(ink), paper), `${ink} on ${paper}`).toBe(true);
+      }
+    }
+  });
+
+  it('are the themes the style guide actually uses', () => {
+    const guide = readFileSync(resolve(process.cwd(), 'styleguide/index.html'), 'utf8');
+    for (const { accent, paper } of THEMES) {
+      expect(guide).toContain(`--accent: ${accent}`);
+      expect(guide).toContain(`--paper: ${paper}`);
+    }
+  });
+});

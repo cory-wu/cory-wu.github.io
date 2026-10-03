@@ -38,6 +38,8 @@ function siteShell(): Plugin {
 
 export default defineConfig({
   base: '/',
+  // A multi-page static site: unknown paths 404 like on GitHub Pages instead of falling back to index.html.
+  appType: 'mpa',
   plugins: [siteNav(), siteShell()],
   build: {
     rollupOptions: {
