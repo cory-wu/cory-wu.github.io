@@ -35,7 +35,7 @@ describe('loading state markup', () => {
 
 describe('stylesheet loading', () => {
   it('links the stylesheet from the HTML head so the loader is styled before any JS runs', () => {
-    const link = page().head.querySelector('link[rel="stylesheet"][href="/src/style.css"]');
+    const link = page().head.querySelector('link[rel="stylesheet"][href="/src/styles/garden.css"]');
     expect(link).not.toBeNull();
   });
 });

@@ -83,6 +83,18 @@ describe('stylesheets', () => {
     }
   });
 
+  it('lets the garden use only tokens or its own local properties', () => {
+    const garden = readStyle('garden.css');
+    const local = parseTokens(garden);
+    const missing = [...usedVars(garden)].filter((v) => !tokens.has(v) && !local.has(v));
+    expect(missing).toEqual([]);
+  });
+
+  it('pulls the garden onto the shared fonts and tokens', () => {
+    const imports = [...readStyle('garden.css').matchAll(/@import\s+['"]\.\/([^'"]+)['"]/g)].map((m) => m[1]);
+    expect(imports).toEqual(['fonts.css', 'tokens.css']);
+  });
+
   it('load exactly the six font files the spec lists', () => {
     const imports = [...readStyle('fonts.css').matchAll(/@import\s+['"]([^'"]+)['"]/g)].map((m) => m[1]);
     expect(imports.sort()).toEqual([
