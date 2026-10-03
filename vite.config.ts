@@ -43,7 +43,11 @@ export default defineConfig({
   plugins: [siteNav(), siteShell()],
   build: {
     rollupOptions: {
-      input: { main: 'index.html', writing: 'writing/index.html' },
+      input: {
+        main: 'index.html',
+        writing: 'writing/index.html',
+        memorylessness: 'writing/memorylessness/index.html',
+      },
     },
   },
   test: {

@@ -85,3 +85,26 @@ test('does not ship the style guide', async ({ page }) => {
   const res = await page.goto('/styleguide/');
   expect(res?.status()).toBe(404);
 });
+
+test.describe('first article', () => {
+  const PATH = '/writing/memorylessness/';
+  const TITLE = 'What makes memorylessness?';
+
+  test('is listed on the writing page', async ({ page }) => {
+    await page.goto('/writing/');
+    const link = page.locator(`#content a[href="${PATH}"]`);
+    await expect(link).toHaveText(TITLE);
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(`${PATH}$`));
+  });
+
+  test('renders in the shell under Writing with its title', async ({ page }) => {
+    const errors = collectErrors(page);
+    await page.goto(PATH);
+    await expect(page).toHaveTitle(`${TITLE} — Cory Wu`);
+    await expect(page.locator('#content h1')).toHaveText(TITLE);
+    await expect(page.locator('.site-nav a[aria-current="page"]')).toHaveText('Writing');
+    await expect(page.locator('script')).toHaveCount(0);
+    expect(errors).toEqual([]);
+  });
+});
