@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import type { Plugin } from 'vite';
+import { contentEngine } from './src/content-engine/plugin.ts';
 import { placements } from './src/garden/landmarks/registry.ts';
 import { injectNavLinks } from './src/garden/nav-markup.ts';
 import { injectShell, sectionFromPath, splitShell } from './src/site/shell.ts';
@@ -40,13 +41,12 @@ export default defineConfig({
   base: '/',
   // A multi-page static site: unknown paths 404 like on GitHub Pages instead of falling back to index.html.
   appType: 'mpa',
-  plugins: [siteNav(), siteShell()],
+  plugins: [siteNav(), contentEngine(), siteShell()],
   build: {
     rollupOptions: {
       input: {
         main: 'index.html',
-        writing: 'writing/index.html',
-        memorylessness: 'writing/memorylessness/index.html',
+        // writing/ pages are generated from src/content/ by contentEngine().
       },
     },
   },

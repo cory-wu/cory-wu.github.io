@@ -1,10 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { Group } from 'three';
 import indexHtml from '../../index.html?raw';
-import writingHtml from '../../writing/index.html?raw';
 import { injectNavLinks } from '../../src/garden/nav-markup';
 import { placements } from '../../src/garden/landmarks/registry';
 import type { Placement } from '../../src/garden/landmarks/types';
+import { writingIndex } from '../../src/content-engine/templates';
+
+/** A text page (the generated writing index), which has no empty nav list. */
+const writingHtml = writingIndex([], { dev: false });
 
 const links = (html: string) =>
   Array.from(new DOMParser().parseFromString(html, 'text/html').querySelectorAll<HTMLAnchorElement>('#site-nav-list > li > a'));
