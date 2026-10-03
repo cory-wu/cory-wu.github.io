@@ -86,7 +86,7 @@ When only `theme.accent` is set, it is checked against the default paper
 
 Error format (one line per problem):
 `src/content/writing/<file>.md: <field>: <problem>` — e.g.
-`…/memorylessness.md: theme.accent: #b0c4b1 is 1.8:1 on #f4f1e8, needs 4.5:1`.
+`…/memorylessness.md: theme.accent: #b0c4b1 is 1.6:1 on #f4f1e8, needs 4.5:1`.
 
 ### Migration
 
