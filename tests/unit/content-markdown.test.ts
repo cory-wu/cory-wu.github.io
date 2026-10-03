@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { resolve } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { ContentError } from '../../src/content-engine/errors.ts';
 import { renderNote, type RenderContext } from '../../src/content-engine/markdown.ts';
 import { buildLinkIndex } from '../../src/content-engine/plugins/wikilinks.ts';
@@ -26,6 +26,11 @@ function ctx(forwarded: string[] = []): RenderContext {
 }
 
 const render = (body: string, forwarded?: string[]) => renderNote(note(body), ctx(forwarded));
+
+// Warm the Shiki highlighter so the first test does not absorb its start-up cost.
+beforeAll(async () => {
+  await render('```ts\nconst warm = 1\n```');
+}, 30_000);
 
 describe('renderNote', () => {
   it('renders inline math with KaTeX and reports hasMath', async () => {
@@ -64,6 +69,32 @@ describe('renderNote', () => {
     expect(r.html).toContain('class="footnotes"');
     expect(r.html).toMatch(/<h2[^>]*>Notes<\/h2>/);
     expect(r.html).not.toContain('heading-anchor');
+    expect(r.html).not.toContain('sr-only');
+    expect(r.headings).toEqual([]);
+  });
+
+  it('keeps the footnote Notes heading out of the TOC count', async () => {
+    const r = await render('## A\n\n## B\n\ntext[^1]\n\n[^1]: note');
+    expect(r.headings.map((h) => h.id)).toEqual(['a', 'b']);
+    expect(shouldShowToc(r.headings)).toBe(false);
+  });
+
+  it('treats currency-style dollars as literal text', async () => {
+    const r = await render('It costs $5 and $10 today.');
+    expect(r.hasMath).toBe(false);
+    expect(r.html).toContain('It costs $5 and $10 today.');
+    expect(r.html).not.toContain('katex');
+    const spaced = await render('$ x $');
+    expect(spaced.hasMath).toBe(false);
+    expect(spaced.html).toContain('$ x $');
+  });
+
+  it('still renders valid inline and display math', async () => {
+    for (const src of ['$x$', '$e^{i\\pi}$', '$$\nx\n$$']) {
+      const r = await render(src);
+      expect(r.hasMath).toBe(true);
+      expect(r.html).toContain('class="katex');
+    }
   });
 
   it('collects headings with anchors', async () => {

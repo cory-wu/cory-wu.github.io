@@ -51,11 +51,36 @@ function isKnownLang(lang: string): boolean {
   return SPECIAL_LANGS.has(lang) || lang in bundledLanguages || lang in bundledLanguagesAlias;
 }
 
-/** Sets `flag.value` when the tree holds math nodes. */
-function remarkDetectMath(flag: { value: boolean }) {
+/**
+ * Obsidian/Pandoc inline-math rules for single-`$` spans: the opening `$` must be followed by a
+ * non-space, the closing `$` preceded by a non-space and not followed by a digit. Spans that fail
+ * become literal text. Sets `flag.value` when real math remains.
+ */
+function remarkMathRules(source: string, flag: { value: boolean }) {
+  const isSpace = (c: string | undefined): boolean => c === undefined || /\s/.test(c);
   return (tree: MdastRoot): void => {
-    visit(tree, (node) => {
-      if (node.type === 'math' || node.type === 'inlineMath') flag.value = true;
+    visit(tree, (node, index, parent) => {
+      if (node.type === 'math') {
+        flag.value = true;
+        return;
+      }
+      if (node.type !== 'inlineMath') return;
+      const start = node.position?.start.offset;
+      const end = node.position?.end.offset;
+      if (start === undefined || end === undefined || !parent || index === undefined) {
+        flag.value = true;
+        return;
+      }
+      const raw = source.slice(start, end);
+      const single = raw.startsWith('$') && !raw.startsWith('$$');
+      const valid =
+        !single ||
+        (!isSpace(raw[1]) && !isSpace(raw[raw.length - 2]) && !/\d/.test(source[end] ?? ''));
+      if (valid) {
+        flag.value = true;
+        return;
+      }
+      parent.children.splice(index, 1, { type: 'text', value: raw });
     });
   };
 }
@@ -93,8 +118,8 @@ function rehypeHeadings(into: Heading[]) {
       const match = /^h([234])$/.exec(node.tagName);
       const id = node.properties.id;
       if (!match || typeof id !== 'string') return;
+      if (id === FOOTNOTE_LABEL_ID) return; // the "Notes" label stays out of the TOC and gets no anchor
       into.push({ depth: Number(match[1]) as Heading['depth'], id, text: textOf(node) });
-      if (id === FOOTNOTE_LABEL_ID) return; // visually hidden label; an anchor would be noise
       node.children.push({
         type: 'element',
         tagName: 'a',
@@ -119,7 +144,7 @@ export async function renderNote(note: Note, ctx: RenderContext): Promise<Render
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkMath)
-    .use(remarkDetectMath, math)
+    .use(remarkMathRules, note.body, math)
     .use(remarkWikilinks, { links: ctx.links, dev: ctx.dev, warn, file: note.file })
     .use(remarkEmbeds, {
       attachmentsDir: ctx.attachmentsDir,
@@ -129,13 +154,13 @@ export async function renderNote(note: Note, ctx: RenderContext): Promise<Render
       file: note.file,
     })
     .use(remarkCallouts, { warn, file: note.file })
-    .use(remarkRehype, { allowDangerousHtml: true, footnoteLabel: 'Notes', footnoteLabelTagName: 'h2' })
+    .use(remarkRehype, { allowDangerousHtml: true, footnoteLabel: 'Notes', footnoteLabelTagName: 'h2', footnoteLabelProperties: {} })
     // rehype-katex always renders with throwOnError: true and reports failures as vfile
     // messages (handled in failOnKatexErrors); its Options type omits the key.
     .use(rehypeKatex, { output: 'htmlAndMathml' })
     .use(rehypeLanguageFallback, (msg: string) => warn(msg))
-    // The highlighter itself is a process-wide singleton inside shiki.
-    .use(rehypeShiki, { theme: 'github-light', fallbackLanguage: FALLBACK_LANG })
+    // Singleton highlighter inside shiki; grammars load lazily so plain notes pay nothing.
+    .use(rehypeShiki, { theme: 'github-light', fallbackLanguage: FALLBACK_LANG, lazy: true, langs: [] })
     .use(rehypeSlug)
     .use(rehypeHeadings, headings)
     .use(rehypeStringify, { allowDangerousHtml: true });
