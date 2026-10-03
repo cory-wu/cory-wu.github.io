@@ -25,6 +25,7 @@
 }
 
 .article-meta {
+  font-variant-numeric: tabular-nums;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -107,6 +108,12 @@ summary.callout-title {
   cursor: pointer;
 }
 
+/* Anchored headings and footnote targets clear the top edge when jumped to */
+.prose :is(h2, h3, h4),
+.footnotes li {
+  scroll-margin-top: var(--space-6);
+}
+
 /* Heading anchors: hidden until the heading is hovered or focused */
 .heading-anchor {
   margin-left: var(--space-2);
@@ -176,6 +183,7 @@ body[data-dev] .wikilink-missing {
 
 .post-list time {
   display: block;
+  font-variant-numeric: tabular-nums;
   color: var(--ink-soft);
   font-family: var(--font-ui);
   font-size: var(--text-ui);

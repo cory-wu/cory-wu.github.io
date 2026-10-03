@@ -118,7 +118,7 @@ describe('renderNote', () => {
 
   it('renders callouts', async () => {
     const r = await render('> [!tip] Hint\n> body');
-    expect(r.html).toContain('<aside class="callout callout-tip">');
+    expect(r.html).toContain('<div class="callout callout-tip" role="note">');
   });
 });
 

@@ -68,7 +68,7 @@ test.describe('markdown field guide', () => {
     await expect(img).toHaveAttribute('src', /^\/assets\/garden-tile-[\w-]+\.svg$/);
     expect((await page.request.get((await img.getAttribute('src'))!)).status()).toBe(200);
 
-    await expect(main.locator('aside.callout-note')).toHaveCount(1);
+    await expect(main.locator('div.callout-note[role="note"]')).toHaveCount(1);
     await expect(main.locator('details.callout-tip:not([open])')).toHaveCount(1);
     await expect(main.locator('details.callout-warning[open]')).toHaveCount(1);
 

@@ -141,7 +141,7 @@ describe('remarkEmbeds', () => {
 describe('remarkCallouts', () => {
   it.each(['note', 'tip', 'warning', 'danger', 'quote', 'example'])('renders %s with a default title', (type) => {
     const { html, warnings } = callout(`> [!${type}]\n> Body`);
-    expect(html).toContain(`<aside class="callout callout-${type}">`);
+    expect(html).toContain(`<div class="callout callout-${type}" role="note">`);
     expect(html).toContain(`<p class="callout-title">${type[0].toUpperCase()}${type.slice(1)}</p>`);
     expect(html).toContain('<p>Body</p>');
     expect(warnings).toHaveLength(0);

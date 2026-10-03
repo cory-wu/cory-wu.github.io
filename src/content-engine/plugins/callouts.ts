@@ -71,9 +71,10 @@ export function remarkCallouts(opts: CalloutOptions) {
       const remaining = body.length > 0 ? [{ type: 'paragraph', children: body } as Paragraph] : [];
       node.children = [titleNode, ...remaining, ...node.children.slice(1)];
       node.data = {
-        hName: fold ? 'details' : 'aside',
+        hName: fold ? 'details' : 'div',
         hProperties: {
           className: ['callout', `callout-${type}`],
+          ...(fold ? {} : { role: 'note' }),
           ...(fold === '+' ? { open: true } : {}),
         },
       };
