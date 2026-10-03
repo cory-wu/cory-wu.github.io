@@ -1,4 +1,16 @@
 /* Shared page shell: skip link, top bar, reading column, footer. */
+
+/* The column grows so the footer sits at the bottom of short pages. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+body > main {
+  flex: 1 0 auto;
+  width: 100%;
+}
 .skip-link {
   position: absolute;
   left: -9999px;

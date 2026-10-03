@@ -52,7 +52,11 @@ test.describe('text page shell', () => {
       link.innerHTML = `<a href="#">https://example.com/${'a'.repeat(150)}</a>`;
       const table = document.createElement('table');
       table.innerHTML = `<tr>${'<td>wide&nbsp;table&nbsp;cell&nbsp;content</td>'.repeat(6)}</tr>`;
-      main.append(pre, link, table);
+      const inline = document.createElement('p');
+      inline.innerHTML = '<code>src/garden/landmarks/registry/placements/defaults/aVeryLongIdentifierName.ts</code>';
+      const bare = document.createElement('p');
+      bare.textContent = `https://example.com/${'b'.repeat(150)}`;
+      main.append(pre, link, table, inline, bare);
     });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
   });
@@ -79,6 +83,26 @@ test.describe('fonts', () => {
     expect(await fonts.bytes()).toBeLessThanOrEqual(GARDEN_FONT_BUDGET);
     expect(fonts.urls.some((u) => /eb-garamond-latin-(400-italic|600)/.test(u))).toBe(false);
   });
+});
+
+test('pins the footer to the bottom of a short page', async ({ page }) => {
+  await page.goto('/writing/');
+  const bottom = await page.locator('.site-footer').evaluate((el) => el.getBoundingClientRect().bottom);
+  const viewport = page.viewportSize()!.height;
+  expect(bottom).toBeGreaterThanOrEqual(viewport - 1);
+});
+
+test('preloads the three first-paint fonts on every page', async ({ page, request }) => {
+  for (const path of ['/', '/writing/', '/writing/memorylessness/']) {
+    await page.goto(path);
+    const hrefs = await page.locator('link[rel="preload"][as="font"]').evaluateAll((ls) => ls.map((l) => l.getAttribute('href')!));
+    expect(hrefs.map((h) => h.replace(/-[\w-]{8}\.woff2$/, '')), path).toEqual([
+      '/assets/eb-garamond-latin-400-normal',
+      '/assets/cormorant-garamond-latin-600-normal',
+      '/assets/inter-latin-500-normal',
+    ]);
+    for (const h of hrefs) expect((await request.get(h)).status(), h).toBe(200);
+  }
 });
 
 test('does not ship the style guide', async ({ page }) => {
