@@ -1,5 +1,7 @@
 // @vitest-environment node
-import { resolve } from 'node:path';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
 import rehypeStringify from 'rehype-stringify';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -168,5 +170,24 @@ describe('remarkCallouts', () => {
   });
   it('leaves ordinary blockquotes alone', () => {
     expect(callout('> just a quote').html).toContain('<blockquote>');
+  });
+});
+
+describe('embed of an unreadable image', () => {
+  it('reports a ContentError naming the file and target', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'embed-bad-'));
+    try {
+      writeFileSync(join(dir, 'broken.png'), Buffer.from('not an image at all'));
+      const run = () =>
+        render('![[broken.png]]', [
+          remarkEmbeds,
+          { attachmentsDir: dir, links, dev: false, warn: () => {}, file: FILE },
+        ]);
+      expect(run).toThrow(ContentError);
+      expect(run).toThrow(/embedded image "broken\.png":/);
+      expect(run).toThrow(new RegExp(FILE.replace(/\./g, '\\.')));
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

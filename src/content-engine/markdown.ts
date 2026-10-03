@@ -157,7 +157,14 @@ export async function renderNote(note: Note, ctx: RenderContext): Promise<Render
     .use(remarkRehype, { allowDangerousHtml: true, footnoteLabel: 'Notes', footnoteLabelTagName: 'h2', footnoteLabelProperties: {} })
     // rehype-katex always renders with throwOnError: true and reports failures as vfile
     // messages (handled in failOnKatexErrors); its Options type omits the key.
-    .use(rehypeKatex, { output: 'htmlAndMathml' })
+    .use(rehypeKatex, {
+      output: 'htmlAndMathml',
+      // KaTeX would console.warn strict-mode findings without the note; route them through warn.
+      strict: (code: string, msg: string) => {
+        warn(`KaTeX: ${msg} [${code}]`);
+        return 'ignore';
+      },
+    })
     .use(rehypeLanguageFallback, (msg: string) => warn(msg))
     // Singleton highlighter inside shiki; grammars load lazily so plain notes pay nothing.
     .use(rehypeShiki, { theme: 'github-light', fallbackLanguage: FALLBACK_LANG, lazy: true, langs: [] })

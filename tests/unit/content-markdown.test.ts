@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { resolve } from 'node:path';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { ContentError } from '../../src/content-engine/errors.ts';
 import { renderNote, type RenderContext } from '../../src/content-engine/markdown.ts';
 import { buildLinkIndex } from '../../src/content-engine/plugins/wikilinks.ts';
@@ -31,6 +31,21 @@ const render = (body: string, forwarded?: string[]) => renderNote(note(body), ct
 beforeAll(async () => {
   await render('```ts\nconst warm = 1\n```');
 }, 30_000);
+
+describe('renderNote KaTeX strict warnings', () => {
+  it('routes strict-mode warnings through warn with the file prefix, not console', async () => {
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const forwarded: string[] = [];
+      await render('$é$', forwarded);
+      expect(forwarded).toHaveLength(1);
+      expect(forwarded[0]).toContain(FILE);
+      expect(spy).not.toHaveBeenCalled();
+    } finally {
+      spy.mockRestore();
+    }
+  });
+});
 
 describe('renderNote', () => {
   it('renders inline math with KaTeX and reports hasMath', async () => {

@@ -45,7 +45,13 @@ function imageNode(inner: string, opts: EmbedOptions): Html {
     ]);
   }
 
-  const size = imageSize(readFileSync(path));
+  let size: ReturnType<typeof imageSize>;
+  try {
+    size = imageSize(readFileSync(path));
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    throw new ContentError(opts.file, [`embedded image "${target}": ${message}`]);
+  }
   const w = size.width;
   const h = size.height;
   let attrs = '';
