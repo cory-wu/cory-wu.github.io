@@ -15,7 +15,8 @@ export interface InjectOptions extends ShellParts {
   year: number;
 }
 
-const SHELLED = 'class="site-bar"';
+/** Added with the shell; page content cannot produce an HTML comment, so it is a safe applied-marker. */
+const SHELLED = '<!-- shell:applied -->';
 const MAIN_CONTENT = /<main\b[^>]*\bid=["']content["']/;
 
 /** The section a page belongs to; the garden (`/`) is never shelled, so it maps to null. */
@@ -47,6 +48,6 @@ export function injectShell(html: string, opts: InjectOptions): string {
 
   return html
     .replace(/<\/head>/, () => `${opts.head}\n</head>`)
-    .replace(/<body\b[^>]*>/, (open) => `${open}\n${header}\n`)
+    .replace(/<body\b[^>]*>/, (open) => `${open}\n${SHELLED}\n${header}\n`)
     .replace(/<\/body>/, `${footer}\n</body>`);
 }

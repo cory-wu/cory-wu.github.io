@@ -91,3 +91,20 @@ describe('injectShell', () => {
     );
   });
 });
+
+describe('injectShell with shell-like content', () => {
+  const opts = { head, header, footer, section: 'writing' as const, year: 2026 };
+  const codePage =
+    '<!doctype html><html><head></head><body><main id="content" class="prose">' +
+    '<p><code>&lt;header class="site-bar"&gt;</code></p><pre><code>&lt;header class="site-bar"&gt;</code></pre>' +
+    '<p><code>class="site-bar"</code></p></main></body></html>';
+
+  it('still wraps a page whose content shows the shell markup, exactly once', () => {
+    const once = injectShell(codePage, opts);
+    const doc = new DOMParser().parseFromString(once, 'text/html');
+    expect(doc.querySelectorAll('header.site-bar')).toHaveLength(1);
+    expect(doc.querySelectorAll('.skip-link')).toHaveLength(1);
+    expect(doc.querySelectorAll('.site-footer')).toHaveLength(1);
+    expect(injectShell(once, opts)).toBe(once);
+  });
+});
