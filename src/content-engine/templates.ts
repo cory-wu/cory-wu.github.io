@@ -46,6 +46,7 @@ function document(p: DocumentParts): string {
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />${description}
     <meta name="theme-color" content="${escapeHtml(p.themeColor)}" />
     <title>${escapeHtml(p.title)} — ${SITE_NAME}</title>
