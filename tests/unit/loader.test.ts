@@ -10,7 +10,7 @@ describe('loading state markup', () => {
     const loader = page().getElementById('loader');
     expect(loader).not.toBeNull();
     expect(loader!.getAttribute('role')).toBe('status');
-    expect(loader!.textContent?.trim()).toBe('Planting the garden…');
+    expect(loader!.textContent?.trim()).toBe('Planting…');
   });
 
   it('draws a decorative low-poly tile hidden from assistive tech', () => {

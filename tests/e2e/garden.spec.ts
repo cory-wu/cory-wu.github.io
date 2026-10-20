@@ -64,7 +64,7 @@ test('shows the loader until the garden is ready, then hides it', async ({ page 
   await page.goto('/?time=12:00', { waitUntil: 'commit' });
   const loader = page.locator('#loader');
   await expect(loader).toBeVisible();
-  await expect(loader).toHaveText('Planting the garden…');
+  await expect(loader).toHaveText('Planting…');
   release();
   await expect(page.locator('#garden')).toHaveClass(/is-ready/);
   await expect(loader).toBeHidden();
