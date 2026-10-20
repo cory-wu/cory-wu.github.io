@@ -1,3 +1,4 @@
+import { isExternalHref, linkLabel, NEW_TAB_REL } from './landmarks/links';
 import type { Placement } from './landmarks/types';
 
 export interface NavHooks {
@@ -19,6 +20,11 @@ function createLink(list: HTMLUListElement, { id, href, label }: Placement['land
   a.href = href;
   a.textContent = label;
   a.dataset.landmarkId = id;
+  if (isExternalHref(href)) {
+    a.target = '_blank';
+    a.rel = NEW_TAB_REL;
+    a.setAttribute('aria-label', linkLabel(label, href));
+  }
   const li = document.createElement('li');
   li.append(a);
   list.append(li);

@@ -2,6 +2,8 @@ import { expect } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
 export const SHED_ID = 'library-shed';
+export const CLOCK_ID = 'clock-post';
+export const BOOKING_URL = 'https://cal.com/cory-wu-upqzhi/15min';
 
 /** Records console errors and uncaught page errors for later assertion. */
 export function collectErrors(page: Page): string[] {

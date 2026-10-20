@@ -52,6 +52,15 @@ describe('buildNav', () => {
     expect(links.at(-1)?.getAttribute('href')).toBe('/extra/');
     expect(links.at(-1)?.textContent).toBe('Extra');
   });
+  it('creates external links that open in a new tab', () => {
+    const list = makeList();
+    const external = { ...placements[0], landmark: { ...placements[0].landmark, id: 'ext', href: 'https://cal.com/x', label: 'Meet' } };
+    const [a] = buildNav(list, [external], { onFocus() {}, onBlur() {} });
+    expect(a.getAttribute('target')).toBe('_blank');
+    expect(a.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(a.getAttribute('aria-label')).toBe('Meet (opens in a new tab)');
+    expect(a.textContent).toBe('Meet');
+  });
   it('calls focus/blur hooks with the landmark id', () => {
     const list = makeList();
     const hooks = { onFocus: vi.fn(), onBlur: vi.fn() };

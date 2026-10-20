@@ -3,13 +3,14 @@ import { Mesh, Points, Scene } from 'three';
 import type { Object3D } from 'three';
 import { createAmbient } from '../../src/garden/ambient';
 import { buildDiorama } from '../../src/garden/diorama';
-import { libraryShed } from '../../src/garden/landmarks/library-shed';
+import { loadLandmarks, placements } from '../../src/garden/landmarks/registry';
 
-/** Everything drawn by the live (non-reduced) scene: diorama, shed and ambient motion. */
+/** Everything drawn by the live (non-reduced) scene: diorama, every registry landmark and ambient motion. */
 async function liveScene(): Promise<Scene> {
   const scene = new Scene();
   const diorama = buildDiorama();
-  scene.add(diorama.group, (await libraryShed.build()).object);
+  const landmarks = await loadLandmarks(placements);
+  scene.add(diorama.group, ...landmarks.map((l) => l.build.object));
   createAmbient(scene, diorama, { reducedMotion: false });
   return scene;
 }
@@ -29,10 +30,10 @@ function drawables(root: Object3D): Array<Mesh | Points> {
 
 const FLAT_KINDS = ['earth', 'courtyard', 'pool-rim', 'pool', 'fountain-water'];
 const MAX_MAIN_PASS_CALLS = 70;
-const MAX_SHADOW_CASTER_CALLS = 40;
+const MAX_SHADOW_CASTER_CALLS = 45;
 
 describe('render budget', () => {
-  it('keeps main-pass draw calls for diorama + shed + ambient under 70', async () => {
+  it('keeps main-pass draw calls for diorama + landmarks + ambient under 70', async () => {
     // Counts butterflies and fireflies together, though only one set is visible at a time.
     const calls = drawables(await liveScene()).reduce((sum, o) => sum + drawCalls(o), 0);
     expect(calls).toBeLessThan(MAX_MAIN_PASS_CALLS);

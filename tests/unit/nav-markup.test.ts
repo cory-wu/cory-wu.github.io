@@ -20,6 +20,21 @@ describe('injectNavLinks', () => {
     );
   });
 
+  it('marks external links to open in a new tab and says so', () => {
+    const out = links(injectNavLinks(indexHtml, placements));
+    for (const [a, { landmark }] of out.map((a, i) => [a, placements[i]] as const)) {
+      if (landmark.href.startsWith('https://')) {
+        expect(a.getAttribute('target')).toBe('_blank');
+        expect(a.getAttribute('rel')).toBe('noopener noreferrer');
+        expect(a.getAttribute('aria-label')).toBe(`${landmark.label} (opens in a new tab)`);
+      } else {
+        expect(a.hasAttribute('target')).toBe(false);
+        expect(a.hasAttribute('aria-label')).toBe(false);
+      }
+    }
+    expect(out.some((a) => a.getAttribute('target') === '_blank')).toBe(true);
+  });
+
   it('leaves pages without the empty nav list unchanged', () => {
     expect(injectNavLinks(writingHtml, placements)).toBe(writingHtml);
   });

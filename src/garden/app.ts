@@ -7,6 +7,7 @@ import { createControls } from './controls';
 import { buildDiorama } from './diorama';
 import { createInteraction } from './interaction';
 import type { Interaction } from './interaction';
+import { openHref } from './landmarks/links';
 import { loadLandmarks, placements, validatePlacements } from './landmarks/registry';
 import { buildNav } from './nav';
 import { createSky } from './sky';
@@ -133,7 +134,7 @@ async function mountScene(
       camera: stage.camera,
       landmarks,
       label,
-      navigate: (href) => win.location.assign(href),
+      navigate: (href) => openHref(win, href),
       requestRender: stage.requestRender,
     });
     cleanup.push(() => interaction.dispose());
@@ -159,6 +160,7 @@ async function mountScene(
     const applyTime = () => {
       const minutes = override ?? currentMinutes(new Date());
       sky.apply(minutes);
+      for (const { build } of landmarks) build.setTime?.(minutes);
       nightFactor = sampleSky(minutes).nightFactor;
       if (reduced) stage.requestRender();
     };

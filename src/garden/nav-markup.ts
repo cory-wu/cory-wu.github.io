@@ -1,3 +1,4 @@
+import { isExternalHref, linkLabel, NEW_TAB_REL } from './landmarks/links.ts';
 import type { Placement } from './landmarks/types.ts';
 
 /** The empty nav list in index.html that the build fills with landmark links. */
@@ -23,7 +24,10 @@ function escapeHtml(value: string): string {
 export function injectNavLinks(html: string, ps: Placement[]): string {
   const items = ps
     .map(({ landmark: { id, href, label } }) => {
-      return `<li><a href="${escapeHtml(href)}" data-landmark-id="${escapeHtml(id)}">${escapeHtml(label)}</a></li>`;
+      const newTab = isExternalHref(href)
+        ? ` target="_blank" rel="${NEW_TAB_REL}" aria-label="${escapeHtml(linkLabel(label, href))}"`
+        : '';
+      return `<li><a href="${escapeHtml(href)}" data-landmark-id="${escapeHtml(id)}"${newTab}>${escapeHtml(label)}</a></li>`;
     })
     .join('');
   return html.replace(EMPTY_NAV_LIST, (_match, open: string, close: string) => `${open}${items}${close}`);

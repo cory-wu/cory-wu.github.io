@@ -39,6 +39,11 @@ Two details of that budget were not obvious from the spec:
   flowers (3 instanced batches, no shadow casting; the ripples are a
   vertex patch on the existing surface): 62 main-pass calls, 40
   shadow-caster calls (unchanged).
+- **Shadow-caster cap raised to 45 calls (2026-10-20).** Requested so
+  the clock post landmark (one merged post mesh casting; its face and
+  hands do not) keeps its grounding shadow. The budget test now builds
+  every registry placement. After the clock post: 68 main-pass calls,
+  41 shadow-caster calls.
 - **Fog runs from 80 to 160** instead of 40 to 90, so the diorama is not
   washed out at the 72-unit phone distance; the fog then mostly tints
   the far sky rather than the island.
@@ -57,7 +62,7 @@ Two details of that budget were not obvious from the spec:
 ## Consequences
 
 Adding an ambient effect or diorama detail now shows up in the budget
-test at once (landmarks only once the test builds every registry
-placement rather than the shed alone). If phones still struggle, the next lever is the remaining
+test at once, landmarks included (the test builds every registry
+placement). If phones still struggle, the next lever is the remaining
 casters (the low front hedges could stop casting) or merging the hedges.
 At the default zoom there is less haze than the plan intended.

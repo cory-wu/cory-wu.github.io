@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Group } from 'three';
 import { loadLandmarks, placements, validatePlacements } from '../../src/garden/landmarks/registry';
+import { APPROVED_EXTERNAL_HREFS } from '../../src/garden/landmarks/links';
 import type { Landmark, Placement } from '../../src/garden/landmarks/types';
 
 const fake = (id: string, href = '/x/', build?: Landmark['build']): Landmark => ({
@@ -24,12 +25,17 @@ describe('validatePlacements', () => {
     expect(msgs).toHaveLength(1);
     expect(msgs[0]).toContain('dup');
   });
-  it('rejects hrefs not starting with /', () => {
-    for (const href of ['writing/', 'https://x']) {
+  it('rejects hrefs that are neither internal paths nor approved links', () => {
+    for (const href of ['writing/', '//cal.com/x', 'https://x', 'http://cal.com/cory-wu-upqzhi/15min']) {
       const msgs = validatePlacements([place(fake('a', href))]);
       expect(msgs).toHaveLength(1);
-      expect(msgs[0]).toContain('must start with /');
+      expect(msgs[0]).toContain('must start with / or be an approved external link');
       expect(msgs[0]).toContain('a');
+    }
+  });
+  it('accepts approved external links', () => {
+    for (const href of APPROVED_EXTERNAL_HREFS) {
+      expect(validatePlacements([place(fake('a', href))])).toEqual([]);
     }
   });
   it('rejects positions outside the diorama', () => {

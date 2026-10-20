@@ -1,10 +1,13 @@
+import { clockPost } from './clock-post.ts';
 import { libraryShed } from './library-shed.ts';
+import { APPROVED_EXTERNAL_HREFS } from './links.ts';
 import type { LandmarkBuild, Placement } from './types.ts';
 
 const DIORAMA_HALF = 6;
 
 export const placements: Placement[] = [
   { landmark: libraryShed, position: [-3.5, -3.5], rotationY: Math.PI / 4 },
+  { landmark: clockPost, position: [0.35, -1.55], rotationY: Math.PI / 4 },
 ];
 
 export function validatePlacements(ps: Placement[]): string[] {
@@ -14,8 +17,9 @@ export function validatePlacements(ps: Placement[]): string[] {
     const { id, href } = landmark;
     if (seen.has(id)) errors.push(`landmark "${id}": duplicate id`);
     seen.add(id);
-    if (!href.startsWith('/') || href.startsWith('//')) {
-      errors.push(`landmark "${id}": href "${href}" must start with /`);
+    const internal = href.startsWith('/') && !href.startsWith('//');
+    if (!internal && !APPROVED_EXTERNAL_HREFS.has(href)) {
+      errors.push(`landmark "${id}": href "${href}" must start with / or be an approved external link`);
     }
     const [x, z] = position;
     if (Math.abs(x) > DIORAMA_HALF || Math.abs(z) > DIORAMA_HALF) {

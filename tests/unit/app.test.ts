@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import indexHtml from '../../index.html?raw';
 import type { WebGLRenderer } from 'three';
 import { hasE2eFlag, startGarden } from '../../src/garden/app';
+import { placements } from '../../src/garden/landmarks/registry';
 
 function mountIndexBody(): void {
   const parsed = new DOMParser().parseFromString(indexHtml, 'text/html');
@@ -29,7 +30,7 @@ describe('startGarden without WebGL', () => {
 
     expect(result).toEqual({ mode: 'fallback' });
     expect(createRenderer).not.toHaveBeenCalled();
-    expect(navLinks()).toHaveLength(1);
+    expect(navLinks()).toHaveLength(placements.length);
     expect(navLinks()[0].getAttribute('href')).toBe('/writing/');
     expect(navLinks()[0].textContent).toBe('Writing');
     expect(byId('fallback').hidden).toBe(false);
@@ -52,7 +53,7 @@ describe('startGarden when scene setup throws', () => {
 
     expect(result).toEqual({ mode: 'fallback' });
     expect(error).toHaveBeenCalledWith(expect.any(String), boom);
-    expect(navLinks()).toHaveLength(1);
+    expect(navLinks()).toHaveLength(placements.length);
     expect(navLinks()[0].getAttribute('href')).toBe('/writing/');
     expect(byId('fallback').hidden).toBe(false);
     expect(byId('reset-view').hidden).toBe(true);
@@ -147,7 +148,7 @@ describe('startGarden with a (stub) WebGL renderer', () => {
     expect(byId('garden').classList.contains('is-ready')).toBe(false);
     expect(renderer.dispose).toHaveBeenCalled();
     expect(frames.size).toBe(0);
-    expect(navLinks()).toHaveLength(1);
+    expect(navLinks()).toHaveLength(placements.length);
   });
 
   it('on context loss hides the label, disposes the stage and shows the fallback', async () => {

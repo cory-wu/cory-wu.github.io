@@ -22,6 +22,8 @@ export const PALETTE = {
   flowerPink: '#e98fb0',
   flowerWhite: '#fbf4ea',
   ironDark: '#3d3a36',
+  clockPost: '#1d1c1b',
+  clockFace: '#f6efdc',
   cloud: '#f7f9fc',
   butterflyLemon: '#f6d55c',
   butterflyRose: '#f2a0c0',

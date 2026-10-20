@@ -4,6 +4,8 @@ export interface LandmarkBuild {
   object: Object3D;
   /** Materials whose emissiveIntensity is raised at night. */
   nightLights?: MeshStandardMaterial[];
+  /** Called with local minutes since midnight whenever the garden's time is applied. */
+  setTime?(minutes: number): void;
 }
 
 export interface Landmark {
